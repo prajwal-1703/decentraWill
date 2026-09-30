@@ -1,0 +1,2689 @@
+# DECENTRAWILL — COMPLETE FRONTEND IMPLEMENTATION
+# ANTIGRAVITY IDE + PONYTAIL DEVELOPMENT MODE
+
+You are the lead frontend engineer, UI/UX architect, security-focused application engineer,
+and implementation agent for the DecentraWill project.
+
+Your job is to BUILD THE COMPLETE FRONTEND in the existing repository.
+
+Do not merely generate mock screens.
+Do not create a visual prototype only.
+Do not stop at the landing page.
+Build the actual production-structured frontend application with routing,
+state management, API integration boundaries, role-based portals,
+forms, workflows, loading states, error states, responsive behavior,
+security UX, and complete end-to-end navigation.
+
+============================================================
+0. CRITICAL: FOLLOW PONYTAIL
+============================================================
+
+Ponytail is enabled in this Antigravity workspace.
+
+You MUST follow Ponytail development principles throughout this implementation.
+
+Before writing code:
+
+1. READ the existing repository.
+2. Understand the existing frontend structure.
+3. Reuse existing components.
+4. Reuse existing dependencies.
+5. Reuse existing utilities.
+6. Reuse existing API/client code if present.
+7. Do not recreate functionality that already exists.
+8. Do not add a dependency if the browser, React, or an installed dependency
+   already solves the problem.
+9. Do not create abstractions unless they are actually needed.
+10. Prefer the smallest maintainable implementation.
+11. Avoid speculative architecture.
+12. Avoid premature optimization.
+13. Avoid unnecessary design-system duplication.
+14. Avoid unnecessary wrappers.
+15. Avoid unnecessary state libraries.
+16. Avoid unnecessary API abstraction layers.
+17. Avoid unnecessary animation libraries.
+18. Avoid unnecessary packages for simple UI behavior.
+
+Use this decision ladder:
+
+1. Does this need to exist?
+   -> If no, don't build it.
+
+2. Does the project already have it?
+   -> Reuse it.
+
+3. Is there already an installed dependency that solves it?
+   -> Use it.
+
+4. Does React/browser/platform provide it?
+   -> Use that.
+
+5. Can it be implemented simply?
+   -> Implement the simple solution.
+
+6. Only if necessary:
+   -> Introduce additional abstraction/dependency.
+
+IMPORTANT:
+
+Ponytail means "lazy about unnecessary complexity",
+NOT "lazy about correctness".
+
+Never sacrifice:
+
+- security
+- authorization UX
+- accessibility
+- data integrity
+- error handling
+- trust-boundary validation
+- destructive-action confirmation
+- document integrity
+- workflow correctness
+- user privacy
+- responsive behavior
+
+============================================================
+1. FIRST ACTION — INSPECT THE PROJECT
+============================================================
+
+Before changing anything:
+
+- inspect the complete repository
+- inspect package.json
+- inspect existing src/
+- inspect existing routes
+- inspect existing components
+- inspect existing styles
+- inspect existing assets
+- inspect existing API clients
+- inspect environment configuration
+- inspect authentication implementation
+- inspect existing backend integration
+- inspect existing design system
+- inspect existing tests
+- inspect AGENTS.md
+- inspect .agents/
+- inspect Ponytail configuration
+- inspect any existing README/project documentation
+
+DO NOT immediately start generating files.
+
+First understand what exists.
+
+Create a short implementation plan internally and then execute it.
+
+If an existing implementation already satisfies a requirement,
+improve/reuse it instead of replacing it.
+
+============================================================
+2. SOURCE OF TRUTH
+============================================================
+
+There are two sources of truth:
+
+SOURCE 1:
+The DecentraWill backend architecture and requirements document in this workspace.
+
+SOURCE 2:
+This frontend implementation instruction.
+
+Backend/domain rules have priority over frontend assumptions.
+
+Do NOT invent frontend behavior that conflicts with backend:
+
+- roles
+- permissions
+- workflow states
+- authorization
+- document access
+- estate membership
+- verification requirements
+- finalization rules
+- activation rules
+- governance
+- blockchain semantics
+
+The frontend must represent backend state.
+
+The frontend must NEVER become the authority for:
+
+- authorization
+- workflow transitions
+- legal validity
+- blockchain confirmation
+- inheritance eligibility
+- asset ownership
+- proof-of-life interpretation
+
+============================================================
+3. PRODUCT
+============================================================
+
+Product:
+
+DECENTRAWILL
+
+Tagline:
+
+Secure Digital Trust, Verification & Inheritance Coordination
+
+DecentraWill is a secure digital platform that strengthens the traditional
+will-making and inheritance process.
+
+It does NOT replace:
+
+- courts
+- probate
+- succession law
+- advocates
+- witnesses
+- executors
+- legally required signatures
+- government processes
+- regulated asset-transfer procedures
+
+The product digitizes coordination, preservation, verification,
+integrity, evidence, workflow, governance and controlled access.
+
+============================================================
+4. CORE PRODUCT LIFECYCLE
+============================================================
+
+The frontend must visually and functionally support this lifecycle:
+
+ACCOUNT
+   ↓
+IDENTITY / KYC
+   ↓
+ESTATE
+   ↓
+WILL CREATION
+   ↓
+ADVOCATE REVIEW
+   ↓
+WITNESS / ATTESTATION
+   ↓
+VERIFICATION
+   ↓
+FINALIZATION
+   ↓
+IMMUTABLE VERSION
+   ↓
+SHA-256 INTEGRITY
+   ↓
+BLOCKCHAIN ANCHOR
+   ↓
+ACTIVE WILL
+   ↓
+PROOF OF LIFE
+   ↓
+ACTIVATION REQUEST
+   ↓
+EVIDENCE
+   ↓
+GRACE / CHALLENGE WINDOW
+   ↓
+GOVERNANCE / APPROVAL
+   ↓
+CONTROLLED RELEASE
+   ↓
+EXECUTOR COORDINATION
+   ↓
+BENEFICIARY ACCESS
+   ↓
+ASSET TRANSFER
+   ↓
+ESTATE CLOSURE
+
+Every major step should have visible status.
+
+============================================================
+5. TECH STACK
+============================================================
+
+Use the existing project's stack if already present.
+
+Preferred baseline:
+
+- React
+- TypeScript
+- Vite
+- React Router
+- Tailwind CSS if already installed
+- shadcn/ui if already installed
+- Lucide icons if already installed
+- TanStack Query if already installed
+- Zod if already installed
+- React Hook Form if already installed
+
+DO NOT install all of these blindly.
+
+First inspect the repository.
+
+If equivalent dependencies already exist,
+use them.
+
+If something isn't needed, don't install it.
+
+============================================================
+6. DESIGN DIRECTION
+============================================================
+
+The UI must feel:
+
+- premium
+- secure
+- sophisticated
+- calm
+- professional
+- trustworthy
+- modern
+- legal-tech
+- financial-infrastructure quality
+
+Reference the design quality of:
+
+- Linear
+- Stripe
+- Vercel
+- modern private banking applications
+- premium legal-tech software
+
+Do NOT create:
+
+- generic SaaS dashboards
+- crypto casino aesthetics
+- excessive gradients
+- excessive glassmorphism
+- neon blockchain UI
+- giant meaningless statistics
+- excessive animations
+- childish illustrations
+- unnecessary 3D effects
+
+The interface should communicate:
+
+TRUST
+SECURITY
+CONTROL
+CLARITY
+VERIFICATION
+CONTINUITY
+
+============================================================
+7. BRAND
+============================================================
+
+Brand:
+
+DecentraWill
+
+Short mark:
+
+DW
+
+Visual concept:
+
+- shield
+- document
+- continuity
+- verification
+- digital trust
+
+Avoid making the product look like a crypto wallet.
+
+Blockchain is infrastructure.
+
+The user should primarily see:
+
+- people
+- documents
+- assets
+- rules
+- verification
+- workflow
+- evidence
+- security
+
+============================================================
+8. COLOR SYSTEM
+============================================================
+
+Use a restrained premium palette.
+
+Primary:
+
+Near-black / charcoal
+#0F1115
+
+Secondary:
+
+Warm white
+#F8F7F3
+
+Primary accent:
+
+Deep forest green
+#1B5E20
+
+Secondary green:
+
+#66BB6A
+
+Soft green:
+
+#E8F5E9
+
+Gold accent:
+
+#C9A227
+
+Use semantic colors for:
+
+success
+warning
+error
+info
+
+Do not overuse accent colors.
+
+The product should remain visually calm.
+
+============================================================
+9. TYPOGRAPHY
+============================================================
+
+Prefer:
+
+Inter or Manrope
+
+Optional display font:
+
+DM Serif Display
+
+Use typography hierarchy carefully.
+
+Avoid huge marketing typography inside dashboards.
+
+============================================================
+10. GLOBAL UX PRINCIPLE
+============================================================
+
+Every important screen should answer:
+
+WHO?
+
+WHAT?
+
+WHY?
+
+WHEN?
+
+STATUS?
+
+NEXT ACTION?
+
+For example:
+
+"Will Version 4"
+
+Status:
+Verification Pending
+
+Created:
+12 Sep 2026
+
+Hash:
+SHA-256 ...
+
+Next:
+Witness 2 must attest
+
+This principle should appear throughout the application.
+
+============================================================
+11. ACCOUNT MODEL
+============================================================
+
+A single user account may have:
+
+- TESTATOR
+- ADVOCATE
+- WITNESS
+- EXECUTOR
+- BENEFICIARY
+- ADMIN
+
+across different estates.
+
+DO NOT create separate authentication systems for every role.
+
+Build:
+
+ONE AUTHENTICATION FOUNDATION
+
+with:
+
+ROLE SWITCHING
+
+and
+
+ESTATE SWITCHING.
+
+The UI must never expose a role or estate
+the current user is not authorized to access.
+
+============================================================
+12. APPLICATION SHELL
+============================================================
+
+Create a shared authenticated application shell.
+
+Desktop:
+
+Left sidebar
++
+Top header
++
+Main content
+
+Header:
+
+- estate selector
+- role selector
+- notifications
+- security indicator
+- profile menu
+
+Sidebar:
+
+Role-aware navigation.
+
+Example:
+
+TESTATOR
+
+Dashboard
+My Will
+Assets
+Participants
+Documents
+Verification
+Proof of Life
+Rules
+Access
+Activity
+Settings
+
+ADVOCATE
+
+Dashboard
+Requests
+Client Estates
+Will Review
+Evidence
+Attestations
+Verification
+Activity
+
+WITNESS
+
+Dashboard
+Invitations
+Verification
+Assigned Wills
+Attestation
+Receipts
+
+EXECUTOR
+
+Dashboard
+Estates
+Activation
+Evidence
+Governance
+Tasks
+Execution
+Transfers
+
+BENEFICIARY
+
+Dashboard
+Estates
+Released Assets
+Documents
+Approvals
+Votes
+Activity
+
+ADMIN
+
+Dashboard
+System Health
+Security
+Jobs
+Reconciliation
+Users
+Estates
+Audit
+Support
+
+============================================================
+13. RESPONSIVE DESIGN
+============================================================
+
+Desktop first, but fully responsive.
+
+Mobile:
+
+- bottom navigation where appropriate
+- collapsible navigation
+- responsive tables
+- cards instead of wide tables
+- sticky action bars where useful
+- accessible dialogs
+- readable document views
+- no horizontal scrolling unless genuinely required
+
+Test:
+
+320px
+375px
+768px
+1024px
+1440px
+1920px
+
+============================================================
+14. ROUTING
+============================================================
+
+Implement route architecture.
+
+PUBLIC:
+
+/
+ /about
+ /security
+ /how-it-works
+ /login
+ /register
+ /forgot-password
+ /reset-password
+ /verify
+ /terms
+ /privacy
+
+SHARED:
+
+/select-estate
+/select-role
+/profile
+/settings
+/notifications
+/verification
+/security
+
+TESTATOR:
+
+/testator
+/testator/dashboard
+/testator/will
+/testator/will/builder
+/testator/will/versions
+/testator/assets
+/testator/assets/:id
+/testator/participants
+/testator/documents
+/testator/verification
+/testator/proof-of-life
+/testator/rules
+/testator/access
+/testator/activity
+
+ADVOCATE:
+
+/advocate
+/advocate/requests
+/advocate/estates
+/advocate/estates/:id
+/advocate/review
+/advocate/evidence
+/advocate/attestations
+/advocate/verification
+/advocate/activity
+
+WITNESS:
+
+/witness
+/witness/invitations
+/witness/verification
+/witness/wills
+/witness/attestation
+/witness/receipt
+
+EXECUTOR:
+
+/executor
+/executor/estates
+/executor/activation
+/executor/evidence
+/executor/governance
+/executor/tasks
+/executor/execution
+/executor/transfers
+
+BENEFICIARY:
+
+/beneficiary
+/beneficiary/estates
+/beneficiary/assets
+/beneficiary/documents
+/beneficiary/approvals
+/beneficiary/votes
+/beneficiary/activity
+
+ADMIN:
+
+/admin
+/admin/dashboard
+/admin/health
+/admin/security
+/admin/jobs
+/admin/reconciliation
+/admin/users
+/admin/estates
+/admin/audit
+/admin/support
+
+Protect every route based on authentication,
+role,
+estate membership,
+and backend-provided permissions.
+
+============================================================
+15. LANDING PAGE
+============================================================
+
+Build a premium landing page.
+
+Sections:
+
+1. Navigation
+2. Hero
+3. Trust statement
+4. How DecentraWill works
+5. Traditional will + digital trust layer
+6. Secure document vault
+7. Verification
+8. Advocate collaboration
+9. Witness attestation
+10. Asset management
+11. Proof-of-life
+12. Controlled inheritance
+13. Governance
+14. Blockchain integrity
+15. Role ecosystem
+16. Security architecture
+17. FAQ
+18. Legal boundary
+19. CTA
+20. Footer
+
+Hero copy direction:
+
+"Secure the continuity of your will."
+
+Supporting copy:
+
+"DecentraWill adds a secure, auditable digital trust layer around
+the traditional will and inheritance process."
+
+Do not claim:
+
+"Blockchain makes your will legally valid."
+
+Do not claim:
+
+"Automatic inheritance."
+
+============================================================
+16. AUTHENTICATION
+============================================================
+
+Build complete UI for:
+
+- login
+- registration
+- email verification
+- password reset
+- MFA
+- passkeys if backend supports them
+- wallet connection if enabled
+- session expiration
+- step-up authentication
+
+Sensitive operations should trigger step-up UX.
+
+Examples:
+
+- finalize will
+- download sensitive document
+- modify policy
+- initiate asset transfer
+- high-impact governance vote
+- privileged admin action
+
+============================================================
+17. ONBOARDING
+============================================================
+
+Create onboarding flow:
+
+Welcome
+↓
+Account
+↓
+Identity
+↓
+KYC
+↓
+Role
+↓
+Estate
+↓
+Security
+↓
+Dashboard
+
+Show progress.
+
+Do not make KYC appear equivalent to login.
+
+Clearly distinguish:
+
+Authentication:
+"Can you prove control of this account?"
+
+Identity verification:
+"Has your real-world identity been verified?"
+
+Authorization:
+"Are you allowed to perform this action?"
+
+============================================================
+18. TESTATOR PORTAL
+============================================================
+
+TESTATOR DASHBOARD
+
+Show:
+
+- estate status
+- will status
+- current version
+- verification status
+- document status
+- asset count
+- participant count
+- proof-of-life status
+- pending actions
+- security alerts
+- recent activity
+
+Main CTA:
+
+"Continue Will"
+
+Secondary:
+
+"Manage Assets"
+
+"View Verification"
+
+============================================================
+19. WILL BUILDER
+============================================================
+
+Create a real structured multi-step builder.
+
+Steps:
+
+1. Overview
+2. Testator Details
+3. Family & Relationships
+4. Beneficiaries
+5. Executors
+6. Assets
+7. Distribution
+8. Special Instructions
+9. Documents
+10. Review
+11. Verification
+12. Finalization
+
+Features:
+
+- autosave
+- progress indicator
+- validation
+- save draft
+- resume later
+- last saved timestamp
+- version creation
+- review before finalization
+
+DO NOT allow finalization from a casual "Save" button.
+
+Finalization must be a distinct workflow.
+
+============================================================
+20. WILL PREVIEW
+============================================================
+
+Create document-like preview.
+
+Show:
+
+- will title
+- version
+- status
+- created date
+- updated date
+- participants
+- beneficiaries
+- executors
+- clauses
+- attachments
+- verification status
+- hash
+- blockchain proof
+
+Use a professional legal-document presentation.
+
+============================================================
+21. VERSION MANAGEMENT
+============================================================
+
+Create version timeline.
+
+Example:
+
+Version 1
+Draft
+
+Version 2
+Advocate Reviewed
+
+Version 3
+Witnessed
+
+Version 4
+Finalized
+
+Each version shows:
+
+- version number
+- status
+- created date
+- creator
+- hash
+- attestations
+- blockchain anchor
+- superseded/current state
+
+IMPORTANT:
+
+Finalized versions are immutable.
+
+Never present editing of a finalized version as mutation.
+
+Instead:
+
+"Create New Version"
+
+============================================================
+22. FINALIZATION UX
+============================================================
+
+Finalization flow:
+
+Review
+↓
+Verification checklist
+↓
+Required attestations
+↓
+Document integrity
+↓
+Step-up authentication
+↓
+Explicit confirmation
+↓
+Finalize
+↓
+SHA-256 generated
+↓
+Immutable version created
+↓
+Blockchain anchor queued
+↓
+Blockchain confirmation
+↓
+Success
+
+Do not freeze the UI while waiting for blockchain confirmation.
+
+Show:
+
+"Finalized"
+
+then:
+
+"Blockchain proof pending"
+
+then:
+
+"Blockchain proof confirmed"
+
+if backend provides those states.
+
+============================================================
+23. FINALIZATION SUCCESS
+============================================================
+
+Show:
+
+WILL FINALIZED
+
+Version:
+V4
+
+SHA-256:
+xxxxxxxx
+
+Blockchain:
+Anchoring
+or
+Confirmed
+
+Transaction:
+0x...
+
+Network:
+Ethereum Sepolia
+
+Timestamp:
+...
+
+Provide:
+
+View Will
+View Integrity Proof
+View Blockchain Proof
+Download Receipt
+
+============================================================
+24. ADVOCATE PORTAL
+============================================================
+
+Build:
+
+Dashboard
+Requests
+Client Estates
+Will Review
+Evidence
+Attestations
+Verification
+Activity
+
+Advocate should be able to:
+
+- receive requests
+- accept requests
+- access assigned estates
+- assist with will creation
+- review will content within scope
+- submit verification
+- provide acknowledgement/attestation
+- review evidence
+
+Never allow access outside assigned scope.
+
+============================================================
+25. ADVOCATE REVIEW WORKSPACE
+============================================================
+
+Build a professional review interface.
+
+Desktop:
+
+LEFT:
+document / will
+
+RIGHT:
+review panel
+
+Show:
+
+- version
+- status
+- verification
+- evidence
+- comments
+- required actions
+- attestation
+- audit history
+
+Actions:
+
+Approve / Verify
+Request Changes
+Add Evidence
+Attest
+
+Use confirmations for high-impact actions.
+
+============================================================
+26. WITNESS PORTAL
+============================================================
+
+Build:
+
+- invitations
+- invitation details
+- identity verification
+- assigned will
+- permitted document view
+- version information
+- attestation
+- receipt
+
+Witness attestation MUST clearly reference:
+
+specific estate
+specific will
+specific version
+specific hash
+
+Never imply that a witness is attesting to every future version.
+
+============================================================
+27. EXECUTOR PORTAL
+============================================================
+
+Build:
+
+Dashboard
+Assigned Estates
+Activation
+Evidence
+Governance
+Tasks
+Execution
+Transfers
+
+Executor dashboard should show:
+
+- active cases
+- pending evidence
+- deadlines
+- governance state
+- release status
+- asset transfer status
+- outstanding tasks
+
+============================================================
+28. ACTIVATION CASE
+============================================================
+
+Build activation case workspace.
+
+Show:
+
+Estate
+Will version
+Evidence
+Verification
+Timeline
+Grace period
+Challenge status
+Governance
+Release status
+
+Timeline:
+
+Activation requested
+↓
+Evidence submitted
+↓
+Verification
+↓
+Grace period
+↓
+Challenge window
+↓
+Governance
+↓
+Approved
+↓
+Controlled release
+
+IMPORTANT:
+
+Proof-of-life inactivity MUST NOT automatically be presented as
+"death confirmed".
+
+The UI should say:
+
+"Verification required"
+
+or
+
+"Activation evidence required"
+
+============================================================
+29. BENEFICIARY PORTAL
+============================================================
+
+Beneficiary must only see released/authorized information.
+
+Build:
+
+Dashboard
+Estates
+Released Assets
+Documents
+Approvals
+Votes
+Activity
+
+Before release:
+
+Show:
+
+"Access is controlled by estate policy."
+
+After release:
+
+Show only scoped resources.
+
+Never expose another beneficiary's private information.
+
+============================================================
+30. ASSET MANAGEMENT
+============================================================
+
+Asset types:
+
+- Real Estate
+- Bank Account
+- Investment
+- Insurance
+- Vehicle
+- Jewellery
+- Business
+- Digital Asset
+- Cryptocurrency
+- NFT
+- Domain
+- Other
+
+Asset cards should show:
+
+Name
+Type
+Estimated value
+Ownership
+Beneficiaries
+Documents
+Status
+Transfer state
+
+============================================================
+31. ASSET DETAIL
+============================================================
+
+Asset detail page:
+
+Overview
+Ownership
+Evidence
+Documents
+Allocation
+Transfer
+Audit
+
+Show allocation clearly.
+
+Example:
+
+Asset value:
+₹50,00,000
+
+Beneficiary A:
+50%
+
+Beneficiary B:
+30%
+
+Charity:
+20%
+
+Prevent visually invalid allocations.
+
+Do not trust client-side validation alone.
+
+Backend remains authoritative.
+
+============================================================
+32. BLOCKCHAIN ASSET UI
+============================================================
+
+For blockchain-native assets show:
+
+Network
+Wallet
+Contract
+Token
+Token ID
+Balance
+Transfer status
+Transaction
+Confirmation
+
+But do not turn the entire UI into a crypto dashboard.
+
+============================================================
+33. DOCUMENT VAULT
+============================================================
+
+Build secure document management UI.
+
+Upload states:
+
+Uploading
+Scanning
+Processing
+Verified
+Quarantined
+Available
+Archived
+Failed
+
+Document cards:
+
+Filename
+Type
+Uploaded by
+Uploaded at
+Integrity
+Security scan
+Version
+Access scope
+
+Upload interface:
+
+Drag & Drop
+Browse
+Progress
+Validation
+Security status
+
+Do not expose raw storage paths.
+
+============================================================
+34. DOCUMENT VIEWER
+============================================================
+
+Create secure document preview.
+
+Features:
+
+- document metadata
+- preview where supported
+- download only if authorized
+- integrity information
+- version information
+- access scope
+- audit information
+
+Sensitive download should support step-up authentication when required.
+
+============================================================
+35. VERIFICATION CENTER
+============================================================
+
+Central verification dashboard.
+
+Show:
+
+Identity
+KYC
+Advocate
+Witnesses
+Documents
+Will
+Integrity
+Blockchain
+Proof-of-life
+
+Each should have:
+
+status
+timestamp
+responsible actor
+next action
+
+============================================================
+36. PROOF OF LIFE
+============================================================
+
+Build Proof-of-Life dashboard.
+
+Statuses:
+
+Active
+Due Soon
+Action Required
+Reminder
+Escalated
+Under Verification
+
+Explain clearly:
+
+"Proof-of-life checks help trigger verification workflows.
+Missing a check does not independently establish death."
+
+Show:
+
+Last confirmed
+Next check
+Reminder history
+Current status
+Verification method
+
+============================================================
+37. RULES / POLICY
+============================================================
+
+Build policy configuration UI.
+
+Possible policies:
+
+- witness requirements
+- advocate review
+- governance threshold
+- grace period
+- challenge window
+- proof-of-life interval
+- evidence requirements
+- release conditions
+
+Sensitive changes require step-up authentication.
+
+Show before/after values when appropriate.
+
+============================================================
+38. GOVERNANCE
+============================================================
+
+Build governance interface.
+
+Show:
+
+Proposal
+Purpose
+Created
+Deadline
+Eligible participants
+Votes
+Quorum
+Threshold
+Current state
+
+Vote states:
+
+Not Voted
+Voted
+Pending
+Passed
+Rejected
+Expired
+
+High-impact votes require appropriate confirmation/step-up.
+
+Never show an unauthorized user a vote action.
+
+============================================================
+39. GRACE / CHALLENGE WINDOW
+============================================================
+
+Build visual timeline:
+
+Verification
+↓
+Grace Period
+↓
+Challenge Window
+↓
+Governance
+↓
+Release
+
+Show:
+
+start
+end
+remaining time
+current status
+actions
+
+Do not use countdowns everywhere.
+Only where they are meaningful.
+
+============================================================
+40. CONTROLLED RELEASE
+============================================================
+
+Release UI must communicate:
+
+What is being released?
+To whom?
+Why?
+For how long?
+Under what policy?
+Who authorized it?
+
+Show:
+
+Resource
+Recipient
+Scope
+Start
+Expiry
+Status
+
+Access grants should be visually temporary and scoped.
+
+============================================================
+41. INHERITANCE EXECUTION
+============================================================
+
+Execution workspace:
+
+Estate
+Will
+Executor
+Tasks
+Evidence
+Approvals
+Released Resources
+Transfers
+Closure
+
+Physical/legal assets should show:
+
+"Transfer coordination"
+
+not:
+
+"Automatic blockchain transfer"
+
+unless the asset is explicitly supported as a blockchain-native transfer.
+
+============================================================
+42. AUDIT / ACTIVITY
+============================================================
+
+Create timeline-based audit UI.
+
+Events:
+
+Will created
+Version created
+Document uploaded
+Document verified
+Advocate invited
+Advocate approved
+Witness invited
+Witness attested
+Will finalized
+Hash generated
+Blockchain anchor submitted
+Blockchain confirmed
+Proof-of-life completed
+Activation requested
+Evidence submitted
+Vote cast
+Release granted
+Asset transfer initiated
+Estate closed
+
+Each event:
+
+Actor
+Action
+Timestamp
+Resource
+Status
+
+Do not expose secrets or sensitive document content.
+
+============================================================
+43. NOTIFICATIONS
+============================================================
+
+Notification center.
+
+Categories:
+
+Security
+Will
+Verification
+Witness
+Governance
+Proof of Life
+Inheritance
+Asset
+System
+
+Support:
+
+Unread
+Read
+Critical
+Action required
+
+============================================================
+44. PROFILE / SECURITY
+============================================================
+
+Profile:
+
+Personal details
+Roles
+Estates
+Identity status
+Wallets
+
+Security:
+
+Password
+MFA
+Passkeys
+Sessions
+Devices
+Login history
+Security events
+
+Sensitive operations require re-authentication.
+
+============================================================
+45. WALLET CONNECTION
+============================================================
+
+Wallet connection is optional.
+
+Show:
+
+Connect Wallet
+
+When connected:
+
+Address
+Network
+Verification status
+
+Never display private keys.
+
+Never ask the user to paste private keys.
+
+Never store private keys in frontend storage.
+
+============================================================
+46. ADMIN PORTAL
+============================================================
+
+Admin dashboard:
+
+System health
+Security events
+Jobs
+Queue state
+Blockchain reconciliation
+Users
+Estates
+Audit
+Support
+
+IMPORTANT:
+
+Admin does NOT automatically receive access to private will contents.
+
+Exceptional access must:
+
+- require explicit action
+- require reason
+- require authorization
+- require step-up
+- be audited
+
+============================================================
+47. GLOBAL SEARCH
+============================================================
+
+Implement global search if backend supports it.
+
+Search across authorized:
+
+- estates
+- wills
+- versions
+- documents
+- assets
+- participants
+- tasks
+
+Never return unauthorized resources.
+
+============================================================
+48. STATUS SYSTEM
+============================================================
+
+Use consistent semantic badges.
+
+Examples:
+
+Draft
+Pending
+Verified
+Rejected
+Active
+Finalized
+Superseded
+Expired
+Quarantined
+Processing
+Failed
+Escalated
+Approved
+Rejected
+Released
+Archived
+
+Do not invent random colors per page.
+
+Create one shared status system.
+
+============================================================
+49. LOADING STATES
+============================================================
+
+Every async operation needs proper UX.
+
+Use:
+
+- skeletons
+- spinners only where appropriate
+- disabled action states
+- progress indicators
+- optimistic updates only when safe
+
+Never show blank pages while data loads.
+
+============================================================
+50. ERROR STATES
+============================================================
+
+Build meaningful errors.
+
+Examples:
+
+Session expired
+Unauthorized
+Forbidden
+Resource unavailable
+Validation failed
+Upload failed
+Document quarantined
+Blockchain pending
+Blockchain failed
+Network unavailable
+Server error
+Conflict
+Stale version
+
+Errors should tell users:
+
+What happened
+What it means
+What they can do
+
+Never expose:
+
+stack traces
+internal database errors
+tokens
+secrets
+private infrastructure details
+
+============================================================
+51. ASYNC BLOCKCHAIN UX
+============================================================
+
+Blockchain operations are asynchronous.
+
+Never make:
+
+"transaction submitted"
+
+look identical to:
+
+"transaction confirmed".
+
+Use states:
+
+Not Started
+Queued
+Submitted
+Pending Confirmation
+Confirmed
+Failed
+Reconciliation Required
+
+Blockchain failures should not automatically corrupt application state.
+
+============================================================
+52. SECURITY UX
+============================================================
+
+Security is part of the interface.
+
+Use:
+
+- security indicators
+- session warnings
+- step-up authentication
+- explicit destructive-action confirmation
+- scoped access messages
+- document access warnings
+- immutable-version indicators
+- integrity verification status
+- suspicious-session messaging
+
+Do not make security annoying.
+
+Use it where risk justifies it.
+
+============================================================
+53. LEGAL UX
+============================================================
+
+Use neutral wording.
+
+Never claim:
+
+"This blockchain will is legally valid."
+
+Instead:
+
+"This platform supports the preservation, verification and coordination
+of your will and inheritance workflow. Legal validity remains subject
+to applicable law and required professional/legal processes."
+
+============================================================
+54. DATA PRIVACY
+============================================================
+
+Never place sensitive information in:
+
+- URLs
+- query parameters unnecessarily
+- browser localStorage unnecessarily
+- console logs
+- analytics payloads
+- error messages
+
+Never store:
+
+- private keys
+- passwords
+- raw sensitive documents
+
+in unsafe frontend storage.
+
+============================================================
+55. API INTEGRATION
+============================================================
+
+Backend baseline:
+
+NestJS
+TypeScript
+REST API
+/api/v1
+
+Create a clean frontend API boundary.
+
+Suggested services:
+
+auth
+estate
+will
+document
+asset
+verification
+workflow
+governance
+inheritance
+notification
+audit
+blockchain
+
+Do not create giant "api.ts" files.
+
+Do not over-abstract.
+
+Use the existing backend contract if available.
+
+Use environment configuration:
+
+VITE_API_BASE_URL
+
+Never hardcode production API URLs.
+
+============================================================
+56. TANSTACK QUERY
+============================================================
+
+If TanStack Query already exists/use it.
+
+Use it for:
+
+server state
+fetching
+caching
+mutations
+invalidations
+loading
+error handling
+
+Do not duplicate server state in multiple global stores.
+
+============================================================
+57. AUTH STATE
+============================================================
+
+Create one clear authentication abstraction.
+
+Handle:
+
+authenticated
+unauthenticated
+loading
+expired
+locked
+
+Route guards must be explicit.
+
+Role guards must be explicit.
+
+Estate access must come from backend permissions.
+
+============================================================
+58. MOCK / DEMO MODE
+============================================================
+
+If backend is unavailable during frontend development:
+
+Create a minimal isolated mock service layer.
+
+Do not mix mock data throughout components.
+
+Use realistic fictional data.
+
+Mock mode must be replaceable with real APIs.
+
+The UI must not depend permanently on mock data.
+
+============================================================
+59. COMPLETE DEMO FLOW
+============================================================
+
+The application must be able to demonstrate:
+
+1. Register
+2. Verify account
+3. Complete identity/KYC
+4. Create/select estate
+5. Create will
+6. Add beneficiaries
+7. Add executor
+8. Add assets
+9. Upload documents
+10. Invite advocate
+11. Advocate reviews
+12. Invite witnesses
+13. Witness verification
+14. Witness attestation
+15. Final verification
+16. Step-up authentication
+17. Finalize will
+18. Generate SHA-256
+19. Show immutable version
+20. Queue blockchain anchor
+21. Show blockchain proof
+22. Active will
+23. Proof-of-life
+24. Activation request
+25. Submit evidence
+26. Grace period
+27. Challenge period
+28. Governance
+29. Controlled release
+30. Executor tasks
+31. Beneficiary receives authorized resources
+32. Asset transfer coordination
+33. Estate closure
+
+============================================================
+60. FRONTEND ARCHITECTURE
+============================================================
+
+Use a structure appropriate to the existing repository.
+
+Prefer something conceptually similar to:
+
+src/
+  app/
+  routes/
+  components/
+  features/
+    auth/
+    estate/
+    will/
+    documents/
+    assets/
+    verification/
+    proofOfLife/
+    governance/
+    inheritance/
+    notifications/
+    audit/
+    blockchain/
+  portals/
+    testator/
+    advocate/
+    witness/
+    executor/
+    beneficiary/
+    admin/
+  hooks/
+  services/
+  api/
+  types/
+  utils/
+  constants/
+
+BUT:
+
+DO NOT create this structure blindly.
+
+Follow Ponytail.
+
+If the repository already has a better structure,
+keep it.
+
+============================================================
+61. COMPONENT SYSTEM
+============================================================
+
+Create/reuse shared components.
+
+Examples:
+
+Button
+Input
+Select
+Textarea
+Checkbox
+Radio
+Switch
+Dialog
+Drawer
+Dropdown
+Tabs
+Card
+Badge
+Tooltip
+Table
+Pagination
+Timeline
+Progress
+Skeleton
+Alert
+Toast
+EmptyState
+ErrorState
+ConfirmDialog
+
+Domain components:
+
+EstateSelector
+RoleSwitcher
+WillStatusBadge
+VersionBadge
+DocumentCard
+DocumentViewer
+AssetCard
+AssetAllocation
+VerificationCard
+ProofOfLifeCard
+BlockchainProofCard
+IntegrityHash
+AuditTimeline
+GovernanceProposal
+VoteCard
+ActivationTimeline
+ReleaseGrantCard
+StepUpDialog
+
+Do not create a component for every tiny wrapper.
+
+============================================================
+62. DESIGN SYSTEM
+============================================================
+
+Use consistent:
+
+spacing
+radius
+shadows
+typography
+status colors
+buttons
+forms
+cards
+dialogs
+tables
+
+Prefer a small number of reusable primitives.
+
+Avoid duplicated CSS.
+
+============================================================
+63. FORMS
+============================================================
+
+Forms must have:
+
+- clear labels
+- required indicators
+- inline validation
+- useful errors
+- accessible inputs
+- disabled states
+- loading states
+- unsaved-change handling where needed
+
+Never rely exclusively on placeholder text.
+
+============================================================
+64. UNSAVED CHANGES
+============================================================
+
+For will builder and other important forms:
+
+Detect unsaved changes.
+
+If user attempts to leave:
+
+Show:
+
+"You have unsaved changes."
+
+Actions:
+
+Stay
+Save
+Leave without saving
+
+Do not show unnecessary confirmation for trivial forms.
+
+============================================================
+65. DOCUMENT INTEGRITY UI
+============================================================
+
+Every finalized will version should have:
+
+SHA-256
+Integrity status
+Timestamp
+Version
+Blockchain anchor status
+
+Example:
+
+INTEGRITY VERIFIED
+
+SHA-256
+a8f2...91bc
+
+Blockchain proof
+Confirmed
+
+Do not expose raw sensitive document bytes on-chain.
+
+============================================================
+66. STATE MACHINES
+============================================================
+
+Represent backend states clearly.
+
+Will:
+
+DRAFT
+VERIFICATION_PENDING
+READY_TO_FINALIZE
+FINALIZED
+ACTIVE
+SUPERSEDED
+ACTIVATION_PENDING
+VERIFICATION_WINDOW
+GRACE_PERIOD
+APPROVAL_PENDING
+RELEASED
+CLOSED
+ARCHIVED
+
+Do not invent client-side states that conflict with backend.
+
+Activation should similarly reflect backend workflow.
+
+============================================================
+67. ACCESS CONTROL UX
+============================================================
+
+The frontend must distinguish:
+
+Unauthenticated
+Authenticated
+Wrong role
+Wrong estate
+Insufficient permission
+Workflow not ready
+Resource unavailable
+
+Examples:
+
+403:
+
+"You don't have permission to access this resource."
+
+Workflow restriction:
+
+"This action isn't available in the current workflow state."
+
+============================================================
+68. ACCESSIBILITY
+============================================================
+
+Implement:
+
+WCAG-conscious UX.
+
+Ensure:
+
+- keyboard navigation
+- visible focus
+- semantic HTML
+- accessible labels
+- screen-reader-friendly dialogs
+- sufficient contrast
+- reduced-motion support
+- accessible error messages
+
+Do not sacrifice accessibility for visual effects.
+
+============================================================
+69. ANIMATION
+============================================================
+
+Use animation sparingly.
+
+Good:
+
+page transitions
+modal transitions
+progress
+status changes
+subtle hover states
+
+Bad:
+
+constant motion
+large parallax
+unnecessary bouncing
+crypto-style animated backgrounds
+
+Respect prefers-reduced-motion.
+
+============================================================
+70. PERFORMANCE
+============================================================
+
+Use simple performance practices:
+
+- lazy load large routes
+- avoid unnecessary rerenders
+- optimize images
+- virtualize large lists only when actually needed
+- avoid massive JS dependencies
+- cache server state correctly
+- split heavy document/blockchain functionality when useful
+
+Do not optimize prematurely.
+
+============================================================
+71. TESTING
+============================================================
+
+Add tests where the repository supports them.
+
+Prioritize:
+
+- authentication
+- route guards
+- role guards
+- will builder
+- finalization
+- document permissions
+- asset allocation
+- governance
+- activation
+- controlled release
+
+Add E2E tests for the critical lifecycle if test infrastructure exists.
+
+============================================================
+72. BROWSER VERIFICATION
+============================================================
+
+Use Antigravity browser capabilities to verify the actual UI.
+
+After implementation:
+
+1. Start the frontend.
+2. Open the application.
+3. Test landing page.
+4. Test authentication.
+5. Test route navigation.
+6. Test role switching.
+7. Test estate switching.
+8. Test will builder.
+9. Test document flows.
+10. Test responsive behavior.
+11. Test major dialogs.
+12. Test loading/error states.
+13. Test critical workflows.
+
+Fix visual and functional problems discovered during verification.
+
+Do not assume code correctness equals UI correctness.
+
+============================================================
+73. NO DEAD UI
+============================================================
+
+Do NOT create buttons that do nothing.
+
+Every visible action must:
+
+- work
+- navigate
+- open a dialog
+- trigger a real API/mutation
+- or clearly show "not configured" / unavailable state
+
+Do not create fake functionality pretending it is implemented.
+
+If backend integration is unavailable:
+
+use the isolated demo/mock layer.
+
+============================================================
+74. NO FAKE BLOCKCHAIN
+============================================================
+
+Do not hardcode fake transaction confirmations
+and present them as real.
+
+If blockchain is mocked:
+
+Clearly label:
+
+Demo
+Simulated
+Pending
+Not connected
+
+Real blockchain data must come from backend/API.
+
+============================================================
+75. NO FAKE SECURITY
+============================================================
+
+Do not create UI that merely says:
+
+"Encrypted"
+
+without backend support.
+
+The frontend should represent backend-provided security state.
+
+============================================================
+76. NO OVERENGINEERING
+============================================================
+
+Again:
+
+FOLLOW PONYTAIL.
+
+Avoid:
+
+- unnecessary Redux
+- unnecessary Zustand
+- unnecessary custom event buses
+- unnecessary dependency packages
+- custom date picker when native/installed component works
+- custom modal if existing dialog works
+- custom tooltip if existing component works
+- massive design token architecture
+- excessive hooks
+- excessive generic components
+- speculative micro-frontends
+- unnecessary state machines
+- unnecessary repositories/services
+- unnecessary abstractions
+
+BUT:
+
+Do NOT simplify away:
+
+- authorization
+- security
+- accessibility
+- validation
+- error handling
+- workflow correctness
+- data integrity
+
+============================================================
+77. UI QUALITY BAR
+============================================================
+
+The final UI must look like a real production product.
+
+Not:
+
+"AI generated dashboard"
+
+Instead:
+
+"Professional security/legal/financial infrastructure product."
+
+Pay attention to:
+
+spacing
+alignment
+hierarchy
+density
+typography
+empty states
+microcopy
+loading states
+error states
+responsive behavior
+interaction states
+
+============================================================
+78. FINAL FRONTEND ACCEPTANCE CHECKLIST
+============================================================
+
+Before declaring completion, verify:
+
+[ ] Landing page complete
+[ ] Authentication complete
+[ ] Registration complete
+[ ] Email verification UI
+[ ] Password reset UI
+[ ] MFA/step-up UI
+[ ] Onboarding complete
+[ ] Estate selector
+[ ] Role selector
+[ ] Testator portal
+[ ] Will builder
+[ ] Will preview
+[ ] Version history
+[ ] Finalization workflow
+[ ] SHA-256 display
+[ ] Blockchain proof display
+[ ] Asset management
+[ ] Asset allocation
+[ ] Document vault
+[ ] Document viewer
+[ ] KYC UI
+[ ] Advocate portal
+[ ] Advocate review
+[ ] Witness portal
+[ ] Witness attestation
+[ ] Executor portal
+[ ] Activation workflow
+[ ] Evidence workflow
+[ ] Grace period
+[ ] Challenge period
+[ ] Governance
+[ ] Voting
+[ ] Controlled release
+[ ] Beneficiary portal
+[ ] Notifications
+[ ] Audit timeline
+[ ] Proof-of-life
+[ ] Rules/policies
+[ ] Wallet UI
+[ ] Admin portal
+[ ] Security settings
+[ ] Profile
+[ ] Responsive layout
+[ ] Accessibility
+[ ] Loading states
+[ ] Error states
+[ ] Empty states
+[ ] Unauthorized states
+[ ] Session expiration
+[ ] API error handling
+[ ] Mock/demo mode
+[ ] Critical workflow testing
+[ ] Browser verification
+[ ] No dead buttons
+[ ] No fake blockchain confirmations
+[ ] No sensitive data leaks
+[ ] No unnecessary dependencies
+[ ] No unnecessary abstraction
+
+============================================================
+79. DEFINITION OF DONE
+============================================================
+
+The frontend is complete only when a user can navigate the complete
+logical DecentraWill lifecycle:
+
+ACCOUNT
+→ IDENTITY
+→ ESTATE
+→ WILL
+→ ADVOCATE
+→ WITNESSES
+→ VERIFICATION
+→ DOCUMENT VAULT
+→ FINALIZATION
+→ INTEGRITY
+→ BLOCKCHAIN
+→ ACTIVE WILL
+→ PROOF OF LIFE
+→ ACTIVATION
+→ EVIDENCE
+→ GRACE / CHALLENGE
+→ GOVERNANCE
+→ CONTROLLED RELEASE
+→ EXECUTOR
+→ BENEFICIARY
+→ ASSET TRANSFER
+→ CLOSURE
+
+with appropriate role-based permissions and backend-driven states.
+
+============================================================
+80. IMPLEMENTATION ORDER
+============================================================
+
+Follow this order unless the existing repository dictates a better one:
+
+PHASE 1
+Inspect repository + existing architecture.
+
+PHASE 2
+Establish/reuse design system.
+
+PHASE 3
+Application shell.
+
+PHASE 4
+Authentication + route guards.
+
+PHASE 5
+Estate + role selection.
+
+PHASE 6
+Testator portal.
+
+PHASE 7
+Will builder + versions + finalization.
+
+PHASE 8
+Document vault + verification.
+
+PHASE 9
+Advocate portal.
+
+PHASE 10
+Witness portal.
+
+PHASE 11
+Proof-of-life.
+
+PHASE 12
+Asset management.
+
+PHASE 13
+Executor + activation.
+
+PHASE 14
+Governance.
+
+PHASE 15
+Controlled release.
+
+PHASE 16
+Beneficiary.
+
+PHASE 17
+Admin.
+
+PHASE 18
+Blockchain proof UI.
+
+PHASE 19
+Notifications + audit.
+
+PHASE 20
+Responsive/accessibility hardening.
+
+PHASE 21
+Browser verification.
+
+PHASE 22
+Ponytail review.
+
+============================================================
+81. FINAL PONYTAIL REVIEW
+============================================================
+
+After implementation, review the entire frontend using Ponytail principles.
+
+Ask:
+
+- Did we create anything unnecessary?
+- Did we duplicate an existing component?
+- Did we add a dependency unnecessarily?
+- Can any abstraction be removed?
+- Can any state be simplified?
+- Can any file be smaller?
+- Can any component be reused?
+- Are there dead components?
+- Are there unused dependencies?
+- Are there dead routes?
+- Are there fake UI elements?
+- Are there unnecessary wrappers?
+- Are there unnecessary global stores?
+
+Remove unnecessary complexity.
+
+BUT DO NOT remove:
+
+- security
+- accessibility
+- validation
+- authorization
+- integrity
+- error handling
+- critical workflow controls
+
+============================================================
+82. FINAL RULE
+============================================================
+
+DO NOT stop after creating the visual frontend.
+
+DO NOT return a proposal instead of implementation.
+
+DO NOT create only static pages.
+
+DO NOT create a fake blockchain product.
+
+DO NOT invent backend permissions.
+
+DO NOT bypass role/estate authorization.
+
+DO NOT expose sensitive data.
+
+DO NOT overengineer.
+
+READ FIRST.
+UNDERSTAND FIRST.
+REUSE FIRST.
+IMPLEMENT SECOND.
+VERIFY THIRD.
+SIMPLIFY FOURTH.
+
+Build the complete DecentraWill frontend.
+
+Use the existing backend architecture as the contract.
+
+Use Ponytail as the engineering discipline.
+
+The final result should feel like a secure,
+premium, production-grade digital estate command center.

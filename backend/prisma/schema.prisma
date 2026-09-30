@@ -1,0 +1,746 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  LOCKED
+}
+
+enum RoleType {
+  TESTATOR
+  ADVOCATE
+  WITNESS
+  EXECUTOR
+  BENEFICIARY
+  ADMIN
+}
+
+enum WillStatus {
+  DRAFT
+  VERIFICATION_PENDING
+  READY_TO_FINALIZE
+  FINALIZED
+  ACTIVE
+  SUPERSEDED
+  ACTIVATION_PENDING
+  VERIFICATION_WINDOW
+  GRACE_PERIOD
+  APPROVAL_PENDING
+  CONTROLLED_RELEASE
+  EXECUTION_COORDINATION
+  CLOSED
+  ARCHIVED
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  APPROVED
+  REJECTED
+  EXPIRED
+  CANCELLED
+}
+
+enum DocumentStatus {
+  UPLOADING
+  SCANNING
+  VERIFIED
+  QUARANTINED
+  AVAILABLE
+  ARCHIVED
+}
+
+enum BlockchainStatus {
+  NOT_REQUESTED
+  PENDING
+  CONFIRMED
+  FAILED
+  RECONCILIATION_REQUIRED
+}
+
+enum AccessStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum AttestationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  REVOKED
+}
+
+enum KycStatus {
+  NOT_STARTED
+  PENDING
+  VERIFIED
+  REJECTED
+  EXPIRED
+  REVOKED
+}
+
+enum ProposalStatus {
+  DRAFT
+  OPEN
+  PASSED
+  REJECTED
+  EXPIRED
+  CANCELLED
+  EXECUTED
+}
+
+enum VoteChoice {
+  FOR
+  AGAINST
+  ABSTAIN
+}
+
+enum VoteStatus {
+  CAST
+  REVOKED
+  INVALID
+}
+
+enum ActivationStatus {
+  SUBMITTED
+  EVIDENCE_PENDING
+  VERIFICATION
+  CHALLENGED
+  GRACE
+  APPROVAL_PENDING
+  APPROVED
+  REJECTED
+  RELEASED
+  CLOSED
+}
+
+enum TransferStatus {
+  DRAFT
+  AUTHORIZATION_PENDING
+  READY
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  BLOCKED
+}
+
+enum SecuritySeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum OutboxStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model User {
+  id             String       @id @default(uuid())
+  email          String       @unique
+  passwordHash   String
+  status         UserStatus   @default(ACTIVE)
+  failedLogins   Int          @default(0)
+  lockedUntil    DateTime?
+  emailVerified  Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  profile        UserProfile?
+  identities     AuthIdentity[]
+  sessions       Session[]
+  memberships    EstateMembership[]
+  ownedEstates   Estate[]     @relation("EstateOwner")
+  attestations   Attestation[]
+  votes          Vote[]
+  accessGrants   AccessGrant[]
+  notifications  Notification[]
+  auditEvents    AuditEvent[] @relation("UserAuditEvents")
+}
+
+model UserProfile {
+  id              String     @id @default(uuid())
+  userId          String     @unique
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName        String?
+  phone           String?
+  address         String?
+  kycStatus       KycStatus  @default(NOT_STARTED)
+  kycReference    String?
+  kycVerifiedAt   DateTime?
+  stepUpToken     String?
+  stepUpExpiresAt DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model AuthIdentity {
+  id             String    @id @default(uuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider       String    // "local", "wallet", "oauth"
+  providerId     String?
+  walletAddress  String?
+  walletNonce    String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([provider, providerId])
+  @@index([walletAddress])
+}
+
+model Session {
+  id           String    @id @default(uuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token        String    @unique
+  refreshToken String    @unique
+  userAgent    String?
+  ipAddress    String?
+  isRevoked    Boolean   @default(false)
+  expiresAt    DateTime
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Estate {
+  id                 String              @id @default(uuid())
+  name               String
+  description        String?
+  ownerId            String
+  owner              User                @relation("EstateOwner", fields: [ownerId], references: [id])
+  status             String              @default("ACTIVE")
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  memberships        EstateMembership[]
+  wills              Will[]
+  willVersions       WillVersion[]
+  documents          Document[]
+  assets             Asset[]
+  policies           WorkflowPolicy[]
+  workflowInstances  WorkflowInstance[]
+  proposals          Proposal[]
+  accessGrants       AccessGrant[]
+  proofOfLifeCycles  ProofOfLifeCycle[]
+  activationCases    ActivationCase[]
+  auditEvents        AuditEvent[]
+  notifications      Notification[]
+  blockchainAnchors  BlockchainAnchor[]
+  invitations        ParticipantInvitation[]
+
+  @@index([ownerId])
+}
+
+model EstateMembership {
+  id        String     @id @default(uuid())
+  estateId  String
+  estate    Estate     @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      RoleType
+  status    String     @default("ACTIVE") // ACTIVE, REVOKED
+  joinedAt  DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@unique([estateId, userId, role])
+  @@index([userId])
+  @@index([estateId])
+}
+
+model ParticipantInvitation {
+  id           String     @id @default(uuid())
+  estateId     String
+  estate       Estate     @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  email        String
+  role         RoleType
+  tokenHash    String     @unique
+  expiresAt    DateTime
+  isAccepted   Boolean    @default(false)
+  acceptedAt   DateTime?
+  acceptedBy   String?
+  invitedBy    String
+  createdAt    DateTime   @default(now())
+
+  @@index([estateId])
+  @@index([email])
+}
+
+model Will {
+  id          String        @id @default(uuid())
+  estateId    String
+  estate      Estate        @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  title       String
+  mode        String        @default("TESTATOR_LED") // TESTATOR_LED, ADVOCATE_LED, COLLABORATIVE
+  status      WillStatus    @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  versions    WillVersion[]
+
+  @@index([estateId])
+}
+
+model WillVersion {
+  id                String             @id @default(uuid())
+  willId            String
+  will              Will               @relation(fields: [willId], references: [id], onDelete: Cascade)
+  estateId          String
+  estate            Estate             @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  versionNo         Int
+  status            WillStatus         @default(DRAFT)
+  clausesJson       Json?
+  sha256            String?
+  documentId        String?
+  finalizedAt       DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  clauses           WillClause[]
+  documents         Document[]
+  attestations      Attestation[]
+  blockchainAnchors BlockchainAnchor[]
+
+  @@unique([estateId, versionNo])
+  @@index([willId])
+  @@index([estateId])
+}
+
+model WillClause {
+  id         String      @id @default(uuid())
+  versionId  String
+  version    WillVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  clauseNo   Int
+  title      String
+  content    String
+  metadata   Json?
+  createdAt  DateTime    @default(now())
+
+  @@index([versionId])
+}
+
+model Document {
+  id             String         @id @default(uuid())
+  estateId       String
+  estate         Estate         @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  versionId      String?
+  version        WillVersion?   @relation(fields: [versionId], references: [id])
+  objectKey      String         @unique
+  originalName   String
+  mimeType       String
+  sizeBytes      Int
+  status         DocumentStatus @default(UPLOADING)
+  sha256         String
+  encryptedDek   String         // base64 encrypted data encryption key
+  dekIv          String         // initialization vector
+  authTag        String?        // AES-GCM auth tag
+  isQuarantined  Boolean        @default(true)
+  scanResult     String?
+  metadata       Json?
+  uploadedBy     String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  assetDocuments AssetDocument[]
+
+  @@index([estateId])
+  @@index([versionId])
+}
+
+model Asset {
+  id             String            @id @default(uuid())
+  estateId       String
+  estate         Estate            @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  label          String
+  category       String            // REAL_ESTATE, BANK_ACCOUNT, CRYPTO, STOCKS, VEHICLE, IP, etc.
+  valuation      Decimal?          @db.Decimal(18, 2)
+  currency       String            @default("USD")
+  tokenAddress   String?
+  tokenId        String?
+  chainId        Int?
+  isDigital      Boolean           @default(false)
+  details        Json?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  documents      AssetDocument[]
+  allocations    AssetAllocation[]
+  transferCases  TransferCase[]
+
+  @@index([estateId])
+}
+
+model AssetDocument {
+  id         String   @id @default(uuid())
+  assetId    String
+  asset      Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([assetId, documentId])
+}
+
+model AssetAllocation {
+  id            String   @id @default(uuid())
+  assetId       String
+  asset         Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  beneficiaryId String   // User ID of beneficiary
+  percentage    Decimal? @db.Decimal(5, 2)
+  fixedAmount   Decimal? @db.Decimal(18, 2)
+  instructions  String?
+  conditions    Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([assetId])
+  @@index([beneficiaryId])
+}
+
+model TransferCase {
+  id            String         @id @default(uuid())
+  assetId       String
+  asset         Asset          @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  estateId      String
+  type          String         // PHYSICAL_LEGAL, BLOCKCHAIN_NATIVE
+  status        TransferStatus @default(DRAFT)
+  executorId    String?
+  beneficiaryId String
+  externalRef   String?
+  evidence      Json?
+  txHash        String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([assetId])
+  @@index([estateId])
+}
+
+model Attestation {
+  id             String            @id @default(uuid())
+  versionId      String
+  version        WillVersion       @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User              @relation(fields: [userId], references: [id])
+  role           RoleType
+  type           String            // OTP, WALLET_SIGNATURE, STEP_UP, E_SIGN
+  signature      String?
+  status         AttestationStatus @default(PENDING)
+  attestedAt     DateTime?
+  rejectionReason String?
+  createdAt      DateTime          @default(now())
+
+  @@unique([versionId, userId, role])
+  @@index([versionId])
+  @@index([userId])
+}
+
+model VerificationCase {
+  id            String    @id @default(uuid())
+  estateId      String
+  userId        String
+  type          String    // IDENTITY, LEGAL, DOCUMENT, DEATH_EVIDENCE
+  status        String    // PENDING, VERIFIED, REJECTED
+  evidenceRef   String?
+  providerRef   String?
+  notes         String?
+  verifiedAt    DateTime?
+  expiresAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([estateId])
+  @@index([userId])
+}
+
+model WorkflowPolicy {
+  id                String   @id @default(uuid())
+  estateId          String
+  estate            Estate   @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  version           Int      @default(1)
+  requiredAdvocate  Boolean  @default(true)
+  requiredWitnesses Int      @default(2)
+  quorum            Int      @default(2)
+  threshold         Int      @default(2)
+  gracePeriodDays   Int      @default(30)
+  proofOfLifeDays   Int      @default(90)
+  reminderEveryDays Int      @default(7)
+  eligibleRoles     Json     @default("[\"ADVOCATE\", \"EXECUTOR\", \"BENEFICIARY\"]")
+  rawJson           Json?
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([estateId])
+}
+
+model WorkflowInstance {
+  id         String         @id @default(uuid())
+  estateId   String
+  estate     Estate         @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  type       String         // WILL_FINALIZATION, ACTIVATION, ASSET_TRANSFER
+  state      String         // ACTIVE, COMPLETED, CANCELLED
+  metadata   Json?
+  startedAt  DateTime       @default(now())
+  endedAt    DateTime?
+
+  tasks      WorkflowTask[]
+
+  @@index([estateId])
+}
+
+model WorkflowTask {
+  id                 String           @id @default(uuid())
+  workflowInstanceId String
+  workflowInstance   WorkflowInstance @relation(fields: [workflowInstanceId], references: [id], onDelete: Cascade)
+  title              String
+  type               String
+  assignedRole       RoleType?
+  assignedUserId     String?
+  status             TaskStatus       @default(PENDING)
+  actionDetails      Json?
+  completedAt        DateTime?
+  createdAt          DateTime         @default(now())
+
+  @@index([workflowInstanceId])
+}
+
+model Proposal {
+  id          String         @id @default(uuid())
+  estateId    String
+  estate      Estate         @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  status      ProposalStatus @default(OPEN)
+  quorum      Int            @default(2)
+  threshold   Int            @default(2)
+  votesFor    Int            @default(0)
+  votesAgainst Int           @default(0)
+  expiresAt   DateTime
+  executedAt  DateTime?
+  resolution  String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  votes       Vote[]
+
+  @@index([estateId])
+}
+
+model Vote {
+  id          String     @id @default(uuid())
+  proposalId  String
+  proposal    Proposal   @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  voterId     String
+  voter       User       @relation(fields: [voterId], references: [id])
+  choice      VoteChoice
+  status      VoteStatus @default(CAST)
+  weight      Int        @default(1)
+  stepUpToken String?
+  castAt      DateTime   @default(now())
+
+  @@unique([proposalId, voterId])
+  @@index([proposalId])
+  @@index([voterId])
+}
+
+model AccessGrant {
+  id           String       @id @default(uuid())
+  estateId     String
+  estate       Estate       @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resourceType String       // DOCUMENT, ASSET, WILL
+  resourceId   String
+  scope        String       // READ, DOWNLOAD
+  status       AccessStatus @default(ACTIVE)
+  reason       String?
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  createdAt    DateTime     @default(now())
+
+  @@index([estateId])
+  @@index([userId])
+}
+
+model ProofOfLifeCycle {
+  id                String             @id @default(uuid())
+  estateId          String
+  estate            Estate             @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  testatorId        String
+  cycleNo           Int                @default(1)
+  intervalDays      Int                @default(90)
+  status            String             @default("ACTIVE") // ACTIVE, MISSED, ESCALATED, RESOLVED
+  lastCheckAt       DateTime?
+  nextCheckAt       DateTime
+  missedChecksCount Int                @default(0)
+  escalated         Boolean            @default(false)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  checks            ProofOfLifeCheck[]
+
+  @@index([estateId])
+}
+
+model ProofOfLifeCheck {
+  id          String           @id @default(uuid())
+  cycleId     String
+  cycle       ProofOfLifeCycle @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+  scheduledAt DateTime
+  respondedAt DateTime?
+  status      String           @default("PENDING") // PENDING, CONFIRMED, MISSED
+  channel     String           @default("EMAIL")
+  createdAt   DateTime         @default(now())
+
+  @@index([cycleId])
+}
+
+model ActivationCase {
+  id                 String           @id @default(uuid())
+  estateId           String
+  estate             Estate           @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  requesterId        String
+  reason             String
+  status             ActivationStatus @default(SUBMITTED)
+  evidenceRef        String?
+  gracePeriodEndsAt  DateTime?
+  submittedAt        DateTime         @default(now())
+  approvedAt         DateTime?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  @@index([estateId])
+}
+
+model BlockchainAnchor {
+  id           String           @id @default(uuid())
+  estateId     String
+  estate       Estate           @relation(fields: [estateId], references: [id], onDelete: Cascade)
+  versionId    String
+  version      WillVersion      @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  anchorType   String           // WILL_FINALIZATION, GOVERNANCE_PROOF, ATTESTATION
+  txHash       String?
+  blockNumber  BigInt?
+  status       BlockchainStatus @default(PENDING)
+  documentHash String
+  versionRef   String
+  confirmedAt  DateTime?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@unique([versionId, anchorType])
+  @@index([estateId])
+  @@index([versionId])
+}
+
+model ChainTransaction {
+  id              String           @id @default(uuid())
+  txHash          String           @unique
+  chainId         Int
+  from            String
+  to              String
+  operationType   String
+  status          BlockchainStatus @default(PENDING)
+  blockNumber     BigInt?
+  idempotencyKey  String?
+  metadata        Json?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([idempotencyKey])
+}
+
+model AuditEvent {
+  id            String   @id @default(uuid())
+  estateId      String?
+  estate        Estate?  @relation(fields: [estateId], references: [id])
+  actorId       String?
+  actor         User?    @relation("UserAuditEvents", fields: [actorId], references: [id])
+  eventType     String
+  resourceType  String
+  resourceId    String
+  metadata      Json?
+  previousHash  String
+  currentHash   String
+  ipAddress     String?
+  correlationId String?
+  createdAt     DateTime @default(now())
+
+  @@index([estateId])
+  @@index([actorId])
+  @@index([eventType])
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  estateId  String?
+  estate    Estate?   @relation(fields: [estateId], references: [id])
+  type      String
+  channel   String    @default("EMAIL")
+  subject   String
+  message   String
+  status    String    @default("PENDING") // PENDING, SENT, FAILED
+  sentAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([estateId])
+}
+
+model SecurityEvent {
+  id          String           @id @default(uuid())
+  severity    SecuritySeverity @default(LOW)
+  eventType   String
+  description String
+  userId      String?
+  ipAddress   String?
+  metadata    Json?
+  createdAt   DateTime         @default(now())
+
+  @@index([severity])
+  @@index([eventType])
+}
+
+model OutboxEvent {
+  id            String       @id @default(uuid())
+  aggregateType String
+  aggregateId   String
+  eventType     String
+  payload       Json
+  status        OutboxStatus @default(PENDING)
+  retryCount    Int          @default(0)
+  correlationId String?
+  createdAt     DateTime     @default(now())
+  processedAt   DateTime?
+
+  @@index([status])
+}
+
+model IdempotencyRecord {
+  id             String    @id @default(uuid())
+  idempotencyKey String
+  operationType  String
+  responseStatus Int
+  responseBody   Json
+  createdAt      DateTime  @default(now())
+  expiresAt      DateTime
+
+  @@unique([idempotencyKey, operationType])
+  @@index([expiresAt])
+}

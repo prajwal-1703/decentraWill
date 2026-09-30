@@ -1,0 +1,3605 @@
+You are the lead backend architect, senior TypeScript/NestJS engineer,
+database architect, Web3/Solidity engineer, application-security engineer,
+DevOps engineer, and QA engineer responsible for implementing the complete
+DecentraWill backend.
+
+You must BUILD THE ACTUAL WORKING BACKEND, not merely describe an architecture.
+
+============================================================
+1. PROJECT
+============================================================
+
+Project Name:
+DecentraWill
+
+Purpose:
+
+DecentraWill is a secure digital trust, verification, asset-management,
+governance, and inheritance-coordination platform built around the
+traditional will-making process.
+
+IMPORTANT:
+
+The traditional legal will remains the underlying legal artifact.
+
+This system DOES NOT:
+
+- replace courts
+- replace probate
+- replace advocates/lawyers
+- replace legally required witnesses
+- automatically determine death
+- automatically transfer legally regulated physical assets
+- claim that blockchain overrides applicable law
+- store raw wills or sensitive PII on a public blockchain
+- provide unsupervised legal advice
+
+The backend adds a secure digital layer around the traditional process:
+
+Account
+    ↓
+Identity / Authentication
+    ↓
+Estate
+    ↓
+Will Creation
+    ↓
+Advocate Collaboration
+    ↓
+Witness Verification
+    ↓
+KYC / Identity Verification
+    ↓
+Document Vault
+    ↓
+Cryptographic Integrity
+    ↓
+Will Finalization
+    ↓
+Blockchain Proof
+    ↓
+Active Will
+    ↓
+Proof-of-Life
+    ↓
+Activation Request
+    ↓
+Evidence Verification
+    ↓
+Grace / Challenge Window
+    ↓
+Governance / Approval
+    ↓
+Controlled Release
+    ↓
+Executor Coordination
+    ↓
+Asset Transfer / Execution Cases
+    ↓
+Beneficiary Receipt
+    ↓
+Closure / Archive
+
+============================================================
+2. PRIMARY OBJECTIVE
+============================================================
+
+Implement a complete production-oriented MVP backend that works locally
+and on a home server while remaining portable to AWS.
+
+The implementation must include:
+
+1. Authentication
+2. Authorization
+3. Multi-role accounts
+4. Estate management
+5. Participant management
+6. Invitations
+7. Will creation
+8. Structured will builder backend
+9. Will versioning
+10. Advocate collaboration
+11. Witness management
+12. KYC abstraction
+13. Document vault
+14. Encryption
+15. SHA-256 integrity
+16. Malware scanning abstraction
+17. Asset management
+18. Asset allocation
+19. Asset evidence
+20. Blockchain-native asset management
+21. Transfer cases
+22. Verification
+23. Attestation
+24. Workflow engine
+25. Policy engine
+26. Governance
+27. Voting
+28. Grace periods
+29. Challenge mechanism
+30. Proof-of-life
+31. Activation cases
+32. Controlled release
+33. Executor workflows
+34. Beneficiary workflows
+35. Blockchain integration
+36. Solidity contracts
+37. Blockchain event listeners
+38. Blockchain reconciliation
+39. Notifications
+40. Audit trail
+41. Security events
+42. Outbox pattern
+43. BullMQ workers
+44. Observability
+45. Health checks
+46. Metrics
+47. Distributed tracing
+48. Structured logging
+49. Docker Compose
+50. Database migrations
+51. Seed data
+52. API documentation
+53. Unit tests
+54. Integration tests
+55. Security tests
+56. Concurrency tests
+57. End-to-end tests
+58. Backup/restore support
+59. Complete README
+60. Development documentation
+
+Do not stop after generating the architecture.
+
+Actually implement the system.
+
+============================================================
+3. NON-NEGOTIABLE TECHNOLOGY STACK
+============================================================
+
+Backend:
+
+- Node.js
+- TypeScript
+- NestJS
+- Prisma
+- PostgreSQL
+- Redis
+- BullMQ
+- Viem
+- Solidity
+- Docker
+- Docker Compose
+
+Storage:
+
+- MinIO for local/home-server deployment
+- S3-compatible abstraction
+- AWS S3 compatibility later
+
+Blockchain:
+
+- Ethereum Sepolia initially
+- Viem
+- Solidity
+- Chain adapter abstraction
+
+Observability:
+
+- OpenTelemetry
+- Prometheus
+- Grafana
+- Structured JSON logging
+
+API:
+
+- REST
+- OpenAPI / Swagger
+- API versioning: /api/v1
+
+Testing:
+
+- Jest
+- Supertest
+- Prisma test database
+- Contract tests where appropriate
+
+Security:
+
+- Argon2id
+- secure session/token handling
+- MFA/step-up authentication
+- rate limiting
+- resource-level authorization
+- encryption
+- audit logging
+
+============================================================
+4. ARCHITECTURE
+============================================================
+
+Use a modular NestJS architecture.
+
+High-level:
+
+Frontend
+    ↓
+Reverse Proxy / API Gateway
+    ↓
+NestJS API
+    ├── Auth
+    ├── Identity
+    ├── Users
+    ├── Estates
+    ├── Wills
+    ├── Documents
+    ├── Assets
+    ├── Attestations
+    ├── Verification
+    ├── Proof of Life
+    ├── Workflows
+    ├── Governance
+    ├── Inheritance
+    ├── Access
+    ├── Audit
+    ├── Notifications
+    ├── Blockchain
+    └── Admin
+
+NestJS API
+    ↓
+PostgreSQL
+
+NestJS API
+    ↓
+Redis
+    ↓
+BullMQ Workers
+
+Workers:
+    ├── document scanning
+    ├── hashing
+    ├── notifications
+    ├── proof-of-life reminders
+    ├── blockchain anchors
+    ├── blockchain reconciliation
+    ├── governance deadlines
+    ├── access expiry
+    ├── KYC callbacks
+    └── asset transfers
+
+Document flow:
+
+Upload
+    ↓
+Validate
+    ↓
+Quarantine
+    ↓
+Malware Scan
+    ↓
+Canonical Bytes
+    ↓
+SHA-256
+    ↓
+Envelope Encryption
+    ↓
+MinIO/S3
+    ↓
+PostgreSQL Metadata
+    ↓
+Optional IPFS encrypted artifact
+    ↓
+Blockchain proof
+
+============================================================
+5. SOURCE OF TRUTH RULES
+============================================================
+
+These rules are mandatory.
+
+PostgreSQL:
+    Authoritative source for:
+    - application state
+    - permissions
+    - workflow state
+    - participants
+    - policies
+    - approvals
+    - votes
+
+Object Storage:
+    Authoritative source for:
+    - encrypted document bytes
+
+Blockchain:
+    Authoritative ONLY for:
+    - on-chain proofs
+    - contract events
+    - blockchain asset state represented by contracts
+
+Blockchain MUST NOT become the application's only authorization source.
+
+Redis/BullMQ:
+    Delivery/execution mechanism only.
+
+IPFS:
+    Optional.
+    Never use IPFS as the primary secret document vault.
+
+============================================================
+6. USER / ROLE MODEL
+============================================================
+
+A single user account can have multiple roles across multiple estates.
+
+Roles:
+
+TESTATOR
+ADVOCATE
+WITNESS
+EXECUTOR
+BENEFICIARY
+ADMIN
+
+Do NOT create separate accounts simply because the same person has
+different roles.
+
+Authorization must be based on:
+
+User
++
+Role
++
+Estate membership
++
+Resource ownership
++
+Resource scope
++
+Workflow state
++
+Policy
++
+Step-up authentication
+
+Never trust role information supplied by the frontend.
+
+============================================================
+7. TESTATOR
+============================================================
+
+Testator capabilities:
+
+- create account
+- authenticate
+- complete KYC
+- create estate
+- create will
+- edit drafts
+- create will versions
+- manage beneficiaries
+- manage executor
+- manage assets
+- upload documents
+- invite advocate
+- invite witnesses
+- configure supported policies
+- finalize will
+- complete step-up authentication
+- manage proof-of-life settings
+- manage access
+- view audit activity
+- connect wallet
+- manage supported blockchain assets
+
+Restrictions:
+
+- cannot modify finalized versions
+- cannot delete finalized versions
+- cannot bypass approval rules
+- cannot bypass mandatory workflow gates
+
+============================================================
+8. ADVOCATE
+============================================================
+
+Advocate must be able to:
+
+- receive invitation/request
+- accept estate membership
+- create will on behalf of/with testator
+- assist with structured will
+- review drafts
+- edit permitted fields
+- upload evidence
+- verify identity/legal evidence
+- acknowledge will versions
+- provide attestations
+- request changes
+- review documents
+- participate in configured governance/workflows
+
+Advocate access must be limited to assigned estates/resources.
+
+============================================================
+9. WITNESS
+============================================================
+
+Witness flow:
+
+Invitation
+    ↓
+Accept
+    ↓
+Identity verification
+    ↓
+Step-up authentication if required
+    ↓
+View only permitted will version/content
+    ↓
+Attest/sign
+    ↓
+Attestation stored
+    ↓
+Audit event
+
+Witness cannot:
+
+- edit will
+- modify estate
+- access unrelated estate data
+- attest to an unauthorized version
+
+Attestation MUST be version-specific.
+
+============================================================
+10. EXECUTOR
+============================================================
+
+Executor must be able to:
+
+- view assigned estate workflow
+- receive activation tasks
+- submit evidence
+- complete execution tasks
+- coordinate transfer cases
+- approve where policy allows
+- interact with controlled release
+- manage supported blockchain-native transfers
+
+Executor cannot bypass policy.
+
+============================================================
+11. BENEFICIARY
+============================================================
+
+Beneficiary cannot access private estate data before authorized release.
+
+After release:
+
+- receive authorized documents
+- receive authorized asset information
+- receive authorized instructions
+- acknowledge receipt
+- vote only if explicitly included in policy
+
+Beneficiaries must NEVER see another beneficiary's private data unless
+explicitly authorized.
+
+============================================================
+12. ADMIN
+============================================================
+
+Admin capabilities:
+
+- health monitoring
+- security investigation
+- system configuration
+- job monitoring
+- reconciliation
+- support
+- exceptional access
+
+CRITICAL:
+
+Admin must NOT have unrestricted routine access to private will content.
+
+Any exceptional document access requires:
+
+- authorization
+- reason
+- audit event
+- actor identity
+- timestamp
+- resource
+
+============================================================
+13. AUTHENTICATION
+============================================================
+
+Implement:
+
+- email/password
+- email OTP abstraction
+- phone OTP abstraction
+- OAuth provider abstraction
+- passkey/WebAuthn-ready abstraction
+- optional wallet connection
+- wallet signature
+- MFA
+- step-up authentication
+- secure sessions
+- access token
+- refresh token
+- session rotation
+- logout
+- session revocation
+- account lockout
+- password reset
+- email verification
+
+Password hashing:
+
+Argon2id.
+
+Never store plaintext passwords.
+
+Never log:
+
+- password
+- access token
+- refresh token
+- OTP
+- private key
+- encryption key
+
+============================================================
+14. STEP-UP AUTHENTICATION
+============================================================
+
+Step-up authentication MUST be required for:
+
+- will finalization
+- sensitive document download
+- policy changes
+- asset transfer initiation
+- high-impact governance votes
+- privileged admin operations
+- wallet ownership confirmation where applicable
+
+Implement short-lived step-up proof tokens.
+
+Do not accept a normal access token as proof of step-up.
+
+============================================================
+15. KYC / IDENTITY VERIFICATION
+============================================================
+
+Create provider-agnostic interface:
+
+KycProvider
+
+Methods should include concepts such as:
+
+- startVerification()
+- getStatus()
+- handleWebhook()
+- retrieveEvidenceReference()
+- revokeVerification()
+
+Implement:
+
+MockKycProvider
+
+for local development/demo.
+
+Do NOT hardcode a production vendor.
+
+Persist:
+
+- provider
+- providerReference
+- status
+- timestamps
+- evidence reference
+- expiry
+- revocation state
+- metadata
+
+States:
+
+NOT_STARTED
+PENDING
+VERIFIED
+REJECTED
+EXPIRED
+REVOKED
+
+============================================================
+16. ESTATE
+============================================================
+
+Estate is the main business container.
+
+Estate must contain:
+
+- owner
+- participants
+- roles
+- wills
+- assets
+- policies
+- workflows
+- activation cases
+- audit events
+- proof-of-life configuration
+- access grants
+
+Implement:
+
+Create estate
+Get estate
+Update estate
+List estates
+Estate membership
+Participant management
+Participant invitation
+Participant removal/revocation
+
+============================================================
+17. INVITATIONS
+============================================================
+
+Implement secure invitation flow.
+
+Invitation:
+
+Created
+    ↓
+Token generated
+    ↓
+Hash token
+    ↓
+Send notification
+    ↓
+Recipient accepts
+    ↓
+Authentication
+    ↓
+KYC/step-up if required
+    ↓
+Estate membership created
+    ↓
+Invitation marked accepted
+
+Invitation tokens:
+
+- high entropy
+- single-use
+- short expiry
+- hashed at rest
+- revocable
+- audited
+
+============================================================
+18. WILL DOMAIN
+============================================================
+
+Implement structured will creation.
+
+Will contains:
+
+- estate
+- title
+- metadata
+- structured clauses
+- beneficiaries
+- executor references
+- asset references
+- inheritance instructions
+- policy references
+- legal document package
+
+Support three modes:
+
+1. Testator-led
+2. Advocate-led
+3. Collaborative
+
+Store both:
+
+A. Structured representation
+
+B. Final legal document package
+
+The final legal artifact remains the authoritative legal document.
+
+============================================================
+19. VERSIONING
+============================================================
+
+Every material modification creates a new version.
+
+Example:
+
+V1 DRAFT
+   ↓
+REVIEW
+   ↓
+FINALIZED
+   ↓
+ACTIVE
+
+Material change:
+
+V2 DRAFT
+   ↓
+FINALIZED
+   ↓
+ACTIVE
+
+V1 → SUPERSEDED
+
+Rules:
+
+- finalized versions cannot be edited
+- finalized versions cannot be deleted
+- historical versions remain preserved
+- each version has its own hash
+- each version has verification evidence
+- attestation may need to be repeated
+- only one ACTIVE version per estate
+
+Database constraint:
+
+UNIQUE(estate_id) WHERE status = ACTIVE
+
+Also:
+
+UNIQUE(estate_id, version_no)
+
+============================================================
+20. DOCUMENT VAULT
+============================================================
+
+Implement secure document handling.
+
+Upload pipeline:
+
+1. Receive upload
+2. Validate MIME
+3. Validate extension
+4. Validate size
+5. Generate non-guessable object key
+6. Put into quarantine
+7. Malware scanning
+8. Canonical byte representation
+9. SHA-256
+10. Envelope encryption
+11. Store encrypted object
+12. Store metadata in PostgreSQL
+13. Mark document AVAILABLE
+14. Generate audit event
+15. Trigger required async events
+
+Document states:
+
+UPLOADING
+SCANNING
+VERIFIED
+QUARANTINED
+AVAILABLE
+ARCHIVED
+
+============================================================
+21. ENVELOPE ENCRYPTION
+============================================================
+
+Use envelope encryption.
+
+Per-document:
+
+Document
+    ↓
+Generate DEK
+    ↓
+Encrypt document using authenticated encryption
+    ↓
+Encrypt/wrap DEK using master/KMS key
+    ↓
+Store encrypted document
+    ↓
+Store wrapped key reference/metadata
+
+Never store master keys in PostgreSQL.
+
+Development:
+
+DevelopmentKeyProvider
+
+Production-ready interface:
+
+KmsKeyProvider
+
+Compatible with future:
+
+AWS KMS
+HSM
+Secrets Manager
+
+============================================================
+22. SHA-256 INTEGRITY
+============================================================
+
+Every finalized document/version must have deterministic SHA-256.
+
+Store:
+
+sha256
+
+Hash must be reproducible.
+
+Implement:
+
+verifyDocumentIntegrity()
+
+If even one byte changes:
+
+verification MUST fail.
+
+Never trust client-provided hashes.
+
+The backend must calculate the hash.
+
+============================================================
+23. CONTROLLED DOWNLOAD
+============================================================
+
+Every download must check:
+
+authenticated user
++
+estate membership
++
+role
++
+resource ownership
++
+resource scope
++
+workflow state
++
+access grant
++
+expiration
++
+policy
+
+Use:
+
+- short-lived signed URLs
+OR
+- authorized streaming
+
+Never expose MinIO/S3 credentials.
+
+Every sensitive download creates an audit event.
+
+============================================================
+24. ASSET MANAGEMENT
+============================================================
+
+Assets are a first-class domain.
+
+Support:
+
+- real estate
+- bank accounts
+- financial accounts
+- stocks/investments
+- insurance
+- vehicles
+- jewellery
+- valuables
+- businesses
+- cryptocurrency
+- blockchain tokens
+- NFTs
+- domains
+- digital accounts
+- intellectual property
+- documents
+- custom assets
+
+Asset model:
+
+Asset
+ ├── identity
+ ├── label
+ ├── category
+ ├── ownership evidence
+ ├── valuation metadata
+ ├── documents
+ ├── beneficiary allocations
+ ├── transfer instructions
+ ├── legal constraints
+ ├── blockchain representation
+ └── transfer case
+
+============================================================
+25. ASSET ALLOCATION
+============================================================
+
+Implement:
+
+Asset
+    ↓
+Beneficiary allocation
+
+Allocation must support:
+
+- beneficiary
+- percentage/share
+- fixed allocation where applicable
+- instruction
+- conditions
+- policy reference
+
+Validate allocations.
+
+Prevent invalid allocation states.
+
+============================================================
+26. PHYSICAL / LEGAL ASSETS
+============================================================
+
+IMPORTANT:
+
+Do NOT claim that blockchain has transferred legal ownership of:
+
+- property
+- bank accounts
+- securities
+- vehicles
+- regulated assets
+
+Instead create:
+
+TransferCase
+
+Example:
+
+Asset
+ ↓
+TransferCase
+ ↓
+Required evidence
+ ↓
+Executor
+ ↓
+Professional/legal process
+ ↓
+External transfer
+ ↓
+Evidence upload
+ ↓
+Completion
+
+============================================================
+27. BLOCKCHAIN-NATIVE ASSETS
+============================================================
+
+Create an isolated blockchain asset path.
+
+Support conceptually:
+
+- ERC-20
+- ERC-721
+- ERC-1155
+- native ETH
+- supported future tokens
+
+Do not couple normal will logic directly to Viem.
+
+Use:
+
+BlockchainAssetService
+BlockchainAdapter
+AssetTransferAdapter
+
+Require:
+
+- step-up authentication
+- policy authorization
+- executor/authorized actor
+- transfer case
+- idempotency key
+- explicit approval
+- transaction tracking
+- reconciliation
+
+============================================================
+28. VERIFICATION DOMAIN
+============================================================
+
+Verification layers:
+
+1. Account authentication
+2. KYC
+3. Role/professional verification
+4. Document/evidence verification
+5. Witness attestation
+6. Advocate acknowledgement
+7. Multi-party approval
+8. Blockchain proof
+
+Create:
+
+VerificationCase
+
+with:
+
+- estate
+- type
+- state
+- evidence
+- actor
+- timestamps
+- provider reference
+- expiration
+- audit trail
+
+============================================================
+29. ATTESTATIONS
+============================================================
+
+Support:
+
+- authenticated acknowledgement
+- OTP
+- step-up authentication
+- digital/e-sign adapter
+- wallet signature
+- witness attestation
+- advocate verification
+
+Never assume a cryptographic signature automatically means legal validity.
+
+Store:
+
+- method
+- actor
+- version
+- timestamp
+- evidence
+- status
+- signature/reference
+- provider if applicable
+
+States:
+
+PENDING
+ACCEPTED
+REJECTED
+REVOKED
+
+============================================================
+30. WILL FINALIZATION
+============================================================
+
+Finalization is a critical transaction.
+
+Endpoint:
+
+POST /api/v1/versions/{versionId}/finalize
+
+Require:
+
+Authorization
+Idempotency-Key
+Step-up token
+Confirmation
+Policy acknowledgement
+
+Before finalization check:
+
+- user authorized
+- estate membership
+- role
+- KYC requirements
+- advocate requirement
+- witness requirement
+- attestations
+- documents
+- required evidence
+- policy
+- version state
+- no conflicting active version
+- step-up authentication
+
+Then atomically:
+
+- freeze version
+- mark FINALIZED
+- assign hash
+- create audit event
+- create outbox event
+- queue blockchain anchor
+
+DO NOT wait for blockchain confirmation.
+
+Return:
+
+versionId
+status
+sha256
+blockchainAnchorStatus
+correlationId
+
+============================================================
+31. WORKFLOW ENGINE
+============================================================
+
+Build a real data-driven workflow engine.
+
+Do NOT hardcode every workflow as if/else statements.
+
+Policies must be:
+
+- data-driven
+- versioned
+- deterministic
+- auditable
+
+Policy examples:
+
+required advocate
+required witness count
+approval threshold
+quorum
+grace period
+proof-of-life cadence
+reminder interval
+beneficiary release
+challenge window
+version re-attestation
+asset transfer authorization
+
+============================================================
+32. POLICY ENGINE
+============================================================
+
+Create:
+
+PolicyDefinition
+PolicyVersion
+PolicyEvaluator
+
+Example:
+
+{
+  "requiredAdvocate": true,
+  "requiredWitnesses": 2,
+  "approval": {
+    "quorum": 3,
+    "threshold": 3,
+    "eligibleRoles": ["ADVOCATE", "EXECUTOR", "BENEFICIARY"]
+  },
+  "gracePeriodDays": 30,
+  "proofOfLifeDays": 90,
+  "reminderEveryDays": 7
+}
+
+Do not assume this exact JSON structure is immutable.
+
+Create a strongly typed extensible policy model.
+
+Policy evaluation must be deterministic.
+
+Every policy decision must be auditable.
+
+============================================================
+33. GOVERNANCE
+============================================================
+
+Governance is DAO-inspired but NOT a public DAO.
+
+Only explicitly authorized estate participants can vote.
+
+Policy controls:
+
+- voter eligibility
+- vote weight
+- proposal type
+- quorum
+- threshold
+- voting window
+- challenge window
+- evidence requirements
+- execution action
+
+Flow:
+
+Proposal
+ ↓
+Eligibility
+ ↓
+Evidence validation
+ ↓
+Voting
+ ↓
+Quorum
+ ↓
+Threshold
+ ↓
+Passed / Rejected / Expired
+ ↓
+Workflow transition
+
+Rules:
+
+- revoked users cannot vote
+- unauthorized users cannot vote
+- duplicate votes prohibited
+- votes tied to proposal version
+- votes cannot bypass mandatory legal/workflow gates
+- high-impact transfers require step-up
+- all votes audited
+
+Database:
+
+UNIQUE(proposal_id, voter_id)
+
+============================================================
+34. PROOF-OF-LIFE
+============================================================
+
+Proof-of-life is NOT a death detector.
+
+It only provides evidence that the testator remains active/reachable.
+
+Implement:
+
+ProofOfLifeCycle
+
+ProofOfLifeCheck
+
+Flow:
+
+Scheduled check
+ ↓
+Notification
+ ↓
+Testator response?
+ ├── YES → record response
+ └── NO
+      ↓
+Reminder
+      ↓
+Second channel
+      ↓
+Escalation
+      ↓
+Trusted participants
+      ↓
+Verification case
+
+IMPORTANT:
+
+A missed proof-of-life check MUST NEVER automatically declare death.
+
+============================================================
+35. ACTIVATION
+============================================================
+
+Activation must require authorized trigger + evidence.
+
+Possible trigger sources:
+
+- executor
+- advocate
+- authorized authority evidence
+- configured documentary evidence
+- other approved mechanism
+
+Do not hardcode legal assumptions.
+
+Activation states:
+
+SUBMITTED
+EVIDENCE_PENDING
+VERIFICATION
+CHALLENGED
+GRACE
+APPROVAL_PENDING
+APPROVED
+REJECTED
+RELEASED
+CLOSED
+
+============================================================
+36. INHERITANCE WORKFLOW
+============================================================
+
+Implement:
+
+ACTIVE
+ ↓
+ACTIVATION_PENDING
+ ↓
+VERIFICATION_WINDOW
+ ↓
+GRACE_PERIOD
+ ↓
+APPROVAL_PENDING
+ ↓
+CONTROLLED_RELEASE
+ ↓
+EXECUTION_COORDINATION
+ ↓
+CLOSED / ARCHIVED
+
+Activation approval:
+
+Create ExecutionCase
+
+Then:
+
+ExecutionCase
+ ↓
+Executor tasks
+ ↓
+Asset allocation resolution
+ ↓
+Beneficiary permissions
+ ↓
+Legal/policy prerequisites
+ ↓
+Governance approval
+ ↓
+Release grants
+ ↓
+Transfer cases
+ ↓
+Digital transfers where supported
+ ↓
+External transfer tasks
+ ↓
+Beneficiary acknowledgement
+ ↓
+Close
+
+============================================================
+37. CONTROLLED RELEASE
+============================================================
+
+Release must be:
+
+- resource-specific
+- recipient-specific
+- scope-specific
+- time-limited
+- revocable
+
+Access grant:
+
+user
+resourceType
+resourceId
+scope
+createdAt
+expiresAt
+revokedAt
+reason
+
+States:
+
+ACTIVE
+EXPIRED
+REVOKED
+
+A beneficiary receives ONLY what policy/will authorizes.
+
+============================================================
+38. SMART CONTRACTS
+============================================================
+
+Implement Solidity contracts:
+
+contracts/
+
+WillRegistry.sol
+IntegrityAnchor.sol
+AttestationRegistry.sol
+AssetRegistry.sol
+GovernanceRegistry.sol
+AssetTransferManager.sol
+
+Contract principles:
+
+- small
+- auditable
+- minimal data
+- event-driven
+- explicit state machines
+- replay protection
+- authorization
+- version identifiers
+- proposal identifiers
+
+NEVER store:
+
+- raw will
+- identity documents
+- PII
+- private keys
+- sensitive evidence
+- encryption keys
+
+============================================================
+39. WILL REGISTRY
+============================================================
+
+WillRegistry.sol should maintain minimal references:
+
+- estate identifier/hash
+- will/version reference
+- lifecycle state
+- proof references
+- timestamps
+
+Use events for backend reconciliation.
+
+============================================================
+40. INTEGRITY ANCHOR
+============================================================
+
+IntegrityAnchor.sol:
+
+Store/prove:
+
+- document/version hash
+- event hash
+- timestamp
+- version reference
+
+Provide:
+
+anchorHash()
+verifyHash()
+
+Never store document contents.
+
+============================================================
+41. ATTESTATION REGISTRY
+============================================================
+
+AttestationRegistry.sol:
+
+Record proof/reference of:
+
+- witness attestation
+- advocate verification
+- authorized attestation
+
+Do not store sensitive evidence.
+
+============================================================
+42. ASSET REGISTRY
+============================================================
+
+AssetRegistry.sol:
+
+Represent selected supported blockchain-native assets.
+
+Store only minimal metadata/reference.
+
+Do not store private ownership evidence.
+
+============================================================
+43. GOVERNANCE REGISTRY
+============================================================
+
+GovernanceRegistry.sol:
+
+Record:
+
+- proposal identifier
+- estate/workflow reference
+- decision proof
+- relevant authorization reference
+- timestamp
+
+Do not make it an unrestricted public DAO.
+
+============================================================
+44. ASSET TRANSFER MANAGER
+============================================================
+
+AssetTransferManager.sol:
+
+Optional controlled transfer mechanism.
+
+Must include:
+
+- authorization
+- replay protection
+- transfer case reference
+- explicit state
+- events
+- supported asset restrictions
+
+Do NOT use it for assets requiring external legal transfer.
+
+============================================================
+45. BLOCKCHAIN ADAPTER
+============================================================
+
+Create internal interface:
+
+BlockchainAdapter
+
+Example capabilities:
+
+- anchorVersion()
+- anchorEvent()
+- registerAttestation()
+- registerAsset()
+- createGovernanceProof()
+- initiateAssetTransfer()
+- getTransaction()
+- waitForConfirmation()
+- getBlock()
+- listenToEvents()
+- reconcile()
+
+Domain services MUST NOT directly depend on Viem.
+
+Only blockchain infrastructure adapter may depend on Viem.
+
+============================================================
+46. BLOCKCHAIN TRANSACTION FLOW
+============================================================
+
+Finalization:
+
+DB transaction
+ ↓
+Outbox event
+ ↓
+BullMQ job
+ ↓
+Blockchain adapter
+ ↓
+Smart contract
+ ↓
+PENDING transaction
+ ↓
+Blockchain listener/poller
+ ↓
+CONFIRMED
+ ↓
+Block number + tx hash
+ ↓
+Reconciliation
+
+States:
+
+NOT_REQUESTED
+PENDING
+CONFIRMED
+FAILED
+RECONCILIATION_REQUIRED
+
+A failed transaction MUST NEVER be represented as confirmed.
+
+============================================================
+47. DATABASE
+============================================================
+
+Use Prisma + PostgreSQL.
+
+Implement at minimum:
+
+users
+auth_identities
+sessions
+user_profiles
+roles
+estates
+estate_memberships
+wills
+will_versions
+will_clauses
+documents
+document_versions
+assets
+asset_documents
+asset_allocations
+transfer_cases
+participants
+attestations
+verification_cases
+workflow_policies
+workflow_instances
+workflow_tasks
+proposals
+votes
+access_grants
+proof_of_life_cycles
+proof_of_life_checks
+activation_cases
+blockchain_anchors
+chain_transactions
+audit_events
+notifications
+security_events
+outbox_events
+
+Add supporting tables where necessary.
+
+Use:
+
+- UUIDs
+- timestamps
+- createdAt
+- updatedAt
+- soft/revocation state where appropriate
+- unique indexes
+- foreign keys
+- check constraints where practical
+- composite indexes
+- pagination indexes
+
+============================================================
+48. CRITICAL DATABASE CONSTRAINTS
+============================================================
+
+Implement:
+
+UNIQUE(estate_id, version_no)
+
+Partial unique:
+
+UNIQUE(estate_id)
+WHERE status = ACTIVE
+
+UNIQUE(proposal_id, voter_id)
+
+UNIQUE(idempotency_key, operation_type)
+
+UNIQUE(version_id, anchor_type)
+
+UNIQUE(provider_event_id)
+
+Also implement database-level constraints wherever practical.
+
+Do not rely exclusively on application checks for race-sensitive operations.
+
+============================================================
+49. CONCURRENCY
+============================================================
+
+Protect:
+
+- will finalization
+- version creation
+- active version transition
+- approvals
+- votes
+- activation
+- transfer cases
+- access grants
+
+Use:
+
+- database transactions
+- optimistic locking
+- row locks where appropriate
+- unique indexes
+- state guards
+- idempotency keys
+
+Example:
+
+Two requests simultaneously attempt to finalize.
+
+Result:
+
+Exactly ONE succeeds.
+
+The other receives a controlled conflict/state error.
+
+Never allow two ACTIVE versions.
+
+============================================================
+50. IDEMPOTENCY
+============================================================
+
+Idempotency-Key required for:
+
+- finalization
+- approvals
+- votes where appropriate
+- asset transfers
+- activation submission
+- blockchain commands
+- sensitive commands
+
+Persist idempotency records/results where necessary.
+
+Retry must not:
+
+- duplicate vote
+- duplicate approval
+- duplicate transfer
+- duplicate blockchain anchor
+- duplicate notification
+
+============================================================
+51. OUTBOX PATTERN
+============================================================
+
+Critical database state changes must create an outbox event in the SAME
+database transaction.
+
+Example:
+
+Finalize transaction:
+
+BEGIN
+    finalize version
+    create audit event
+    create outbox event
+COMMIT
+
+Worker:
+
+Outbox
+ ↓
+BullMQ
+ ↓
+Blockchain / Notification / Other worker
+
+Never create a state change and then separately attempt to create its
+corresponding job without transactional reliability.
+
+============================================================
+52. REDIS / BULLMQ
+============================================================
+
+Create queues:
+
+document-scan
+hashing
+notifications
+proof-of-life
+blockchain-anchor
+blockchain-reconciliation
+governance-deadline
+access-expiry
+asset-transfer
+kyc-callback
+
+Workers must include:
+
+- retry
+- exponential backoff
+- dead-letter handling
+- idempotency
+- structured logging
+- metrics
+- trace context
+- failure state
+
+Slow operations must never block normal API requests.
+
+============================================================
+53. NOTIFICATIONS
+============================================================
+
+Provider abstraction.
+
+Implement:
+
+NotificationProvider
+
+Initial:
+
+Email provider/mock provider.
+
+Future:
+
+SMS
+Push
+WhatsApp
+Other channels
+
+Events:
+
+- invitation
+- attestation request
+- version finalized
+- proof-of-life due
+- proof-of-life escalation
+- workflow task
+- challenge
+- controlled release
+- transfer case
+- security alert
+
+Notifications must contain MINIMAL sensitive data.
+
+Never put:
+
+- full will
+- PII
+- private evidence
+- private asset details
+
+inside ordinary email notifications.
+
+Link the user to the authenticated application.
+
+============================================================
+54. AUDIT SYSTEM
+============================================================
+
+Implement append-oriented audit events.
+
+At minimum:
+
+LOGIN_SUCCESS
+LOGIN_FAILURE
+INVITATION_ACCEPTED
+DOCUMENT_UPLOADED
+DOCUMENT_DOWNLOADED
+ATTESTATION_CREATED
+VERSION_FINALIZED
+VERSION_SUPERSEDED
+WORKFLOW_STARTED
+PROPOSAL_CREATED
+VOTE_CAST
+CONTROLLED_RELEASE
+ASSET_TRANSFER_INITIATED
+BLOCKCHAIN_CONFIRMED
+ADMIN_ACCESS
+
+Each event should capture:
+
+- event ID
+- actor
+- estate
+- resource
+- event type
+- timestamp
+- metadata
+- correlation ID
+- IP/security metadata where appropriate
+- previous audit hash
+- current event hash
+
+Implement chained hash:
+
+currentHash =
+SHA256(previousHash + canonicalEvent)
+
+Do not include secrets or raw document contents.
+
+============================================================
+55. SECURITY EVENTS
+============================================================
+
+Detect/log:
+
+- repeated failed logins
+- account lockouts
+- unusual access
+- excessive downloads
+- privilege anomalies
+- invalid invitation attempts
+- invalid votes
+- suspicious document access
+- token abuse
+- repeated authorization failures
+
+Create security event severity:
+
+LOW
+MEDIUM
+HIGH
+CRITICAL
+
+============================================================
+56. AUTHORIZATION
+============================================================
+
+Every protected endpoint MUST execute conceptually:
+
+1. Is user authenticated?
+2. Is role allowed?
+3. Is estate membership valid?
+4. Does resource belong to estate?
+5. Does resource scope allow action?
+6. Does workflow state allow action?
+7. Are policy conditions satisfied?
+8. Is step-up authentication required?
+9. Is step-up proof valid?
+10. Execute
+11. Audit
+
+Default:
+
+DENY.
+
+Prevent:
+
+BOLA
+IDOR
+privilege escalation
+cross-estate access
+cross-beneficiary leakage
+
+============================================================
+57. API
+============================================================
+
+Use:
+
+/api/v1
+
+Implement at minimum:
+
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+POST /api/v1/auth/refresh
+POST /api/v1/auth/step-up
+
+POST /api/v1/kyc/start
+GET  /api/v1/kyc/status
+
+POST /api/v1/estates
+GET  /api/v1/estates/{estateId}
+
+POST /api/v1/estates/{estateId}/participants/invite
+POST /api/v1/invitations/{token}/accept
+
+POST /api/v1/wills
+POST /api/v1/wills/{willId}/versions
+GET  /api/v1/versions/{versionId}
+
+POST /api/v1/versions/{versionId}/documents
+GET  /api/v1/documents/{documentId}/download
+POST /api/v1/documents/{documentId}/verify
+
+POST /api/v1/versions/{versionId}/attestations
+POST /api/v1/versions/{versionId}/finalize
+
+POST /api/v1/estates/{estateId}/assets
+GET  /api/v1/estates/{estateId}/assets
+
+POST /api/v1/assets/{assetId}/allocations
+POST /api/v1/assets/{assetId}/transfer-cases
+
+POST /api/v1/estates/{estateId}/workflow/trigger
+GET  /api/v1/workflows/{workflowId}
+
+POST /api/v1/tasks/{taskId}/approve
+POST /api/v1/tasks/{taskId}/reject
+
+POST /api/v1/proposals/{proposalId}/vote
+
+POST /api/v1/activation-cases
+GET  /api/v1/estates/{estateId}/activation-cases
+
+GET /api/v1/estates/{estateId}/audit
+
+GET /api/v1/versions/{versionId}/blockchain-proof
+
+GET /api/v1/notifications
+
+POST /api/v1/wallets/connect
+
+Also add all necessary CRUD/detail/list endpoints required to make
+the system actually usable.
+
+Do not artificially limit the backend to only the example endpoints.
+
+============================================================
+58. API DESIGN
+============================================================
+
+Requirements:
+
+- REST
+- OpenAPI
+- Swagger
+- request validation
+- response DTOs
+- pagination
+- filtering
+- sorting where appropriate
+- consistent errors
+- correlation IDs
+- HTTP status correctness
+- 202 Accepted for asynchronous operations
+- idempotency support
+- rate limiting
+- API versioning
+
+Error format:
+
+{
+  "statusCode": 400,
+  "code": "DOMAIN_ERROR_CODE",
+  "message": "Human-readable message",
+  "correlationId": "req_xxx",
+  "details": {}
+}
+
+Do not leak internal stack traces in production.
+
+============================================================
+59. PAGINATION
+============================================================
+
+Use cursor pagination where appropriate for:
+
+- audit events
+- notifications
+- assets
+- documents
+- workflow tasks
+- transactions
+
+Never load unlimited rows.
+
+============================================================
+60. FILE SECURITY
+============================================================
+
+Implement:
+
+- MIME validation
+- extension validation
+- maximum file size
+- content sniffing where practical
+- quarantine
+- malware scanner adapter
+- object key randomization
+- encryption
+- integrity hash
+- controlled download
+- audit
+
+Implement:
+
+MalwareScanner interface
+
+with:
+
+MockScanner
+
+for local development.
+
+Allow future ClamAV or another provider without changing domain logic.
+
+============================================================
+61. OBSERVABILITY
+============================================================
+
+Implement:
+
+OpenTelemetry
+Prometheus
+Grafana
+structured JSON logs
+
+Every request should have:
+
+requestId
+correlationId
+traceId
+
+Trace:
+
+API
+ ↓
+PostgreSQL
+ ↓
+Redis
+ ↓
+BullMQ
+ ↓
+Worker
+ ↓
+Blockchain
+ ↓
+Notification
+
+Metrics:
+
+- request rate
+- error rate
+- latency
+- upload failures
+- scan failures
+- queue depth
+- worker failures
+- blockchain pending transactions
+- blockchain reconciliation backlog
+- proof-of-life backlog
+- governance backlog
+- notification failures
+- storage usage
+- asset transfer backlog
+
+============================================================
+62. HEALTH CHECKS
+============================================================
+
+Implement:
+
+/health
+/health/live
+/health/ready
+
+Check:
+
+- application
+- PostgreSQL
+- Redis
+- MinIO
+- blockchain RPC where configured
+
+Readiness must fail when critical dependencies required for normal operation
+are unavailable.
+
+============================================================
+63. ADMIN / OPERATIONS
+============================================================
+
+Implement operational APIs for:
+
+- job status
+- queue status
+- failed jobs
+- blockchain reconciliation
+- security events
+- system health
+- notification failures
+- KYC callback status
+- audit inspection
+- exceptional support access
+
+Admin actions must be audited.
+
+============================================================
+64. CONFIGURATION
+============================================================
+
+Use environment variables.
+
+Create:
+
+.env.example
+
+At minimum:
+
+DATABASE_URL
+REDIS_URL
+
+MINIO_ENDPOINT
+MINIO_ACCESS_KEY
+MINIO_SECRET_KEY
+MINIO_BUCKET
+
+JWT_ACCESS_SECRET
+JWT_REFRESH_SECRET
+
+ENCRYPTION_KEY
+KMS configuration
+
+BLOCKCHAIN_RPC_URL
+BLOCKCHAIN_CHAIN_ID
+BLOCKCHAIN_SIGNER_KEY
+
+CONTRACT_WILL_REGISTRY
+CONTRACT_INTEGRITY_ANCHOR
+CONTRACT_ATTESTATION_REGISTRY
+CONTRACT_ASSET_REGISTRY
+CONTRACT_GOVERNANCE_REGISTRY
+CONTRACT_ASSET_TRANSFER_MANAGER
+
+KYC_PROVIDER_*
+NOTIFICATION_PROVIDER_*
+IPFS_*
+
+Never commit real credentials.
+
+============================================================
+65. SECRETS
+============================================================
+
+Never commit:
+
+- passwords
+- API keys
+- JWT secrets
+- encryption keys
+- KYC credentials
+- email credentials
+- blockchain private keys
+
+Development:
+
+.env
+
+Production:
+
+KMS / Secrets Manager / HSM-compatible system.
+
+Blockchain signer key is CRITICAL.
+
+============================================================
+66. DOCKER
+============================================================
+
+Create complete Docker Compose environment:
+
+frontend        [optional if backend-only repository]
+backend
+worker
+postgres
+redis
+minio
+reverse-proxy
+prometheus
+grafana
+
+Optional:
+
+malware scanner
+IPFS
+
+The system must be runnable using:
+
+docker compose up -d
+
+Provide:
+
+- health checks
+- persistent volumes
+- networks
+- restart policies
+- environment configuration
+- initialization scripts
+- migrations
+- seed command
+
+============================================================
+67. REPOSITORY STRUCTURE
+============================================================
+
+Use:
+
+decentrawill/
+
+├── apps/
+│   ├── web/
+│   └── admin/
+│
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── common/
+│   │   ├── database/
+│   │   │
+│   │   ├── modules/
+│   │   │   ├── auth/
+│   │   │   ├── identity/
+│   │   │   ├── users/
+│   │   │   ├── estates/
+│   │   │   ├── wills/
+│   │   │   ├── documents/
+│   │   │   ├── assets/
+│   │   │   ├── attestations/
+│   │   │   ├── verification/
+│   │   │   ├── proof-of-life/
+│   │   │   ├── workflows/
+│   │   │   ├── governance/
+│   │   │   ├── inheritance/
+│   │   │   ├── access/
+│   │   │   ├── audit/
+│   │   │   ├── notifications/
+│   │   │   ├── blockchain/
+│   │   │   └── admin/
+│   │   │
+│   │   └── jobs/
+│   │       ├── document-scan/
+│   │       ├── hashing/
+│   │       ├── notifications/
+│   │       ├── proof-of-life/
+│   │       ├── blockchain-anchor/
+│   │       ├── reconciliation/
+│   │       └── asset-transfer/
+│   │
+│   ├── prisma/
+│   └── test/
+│
+├── contracts/
+│   ├── WillRegistry.sol
+│   ├── IntegrityAnchor.sol
+│   ├── AttestationRegistry.sol
+│   ├── AssetRegistry.sol
+│   ├── GovernanceRegistry.sol
+│   └── AssetTransferManager.sol
+│
+├── infra/
+│   ├── docker/
+│   ├── nginx/
+│   ├── prometheus/
+│   └── grafana/
+│
+├── docs/
+│
+├── docker-compose.yml
+├── .env.example
+└── README.md
+
+If an existing repository differs, inspect it first and preserve useful
+existing code instead of blindly replacing it.
+
+============================================================
+68. DOMAIN MODULE STRUCTURE
+============================================================
+
+Each NestJS domain module should preferably contain:
+
+module.ts
+controller.ts
+service.ts
+repository.ts
+dto/
+entities/
+interfaces/
+guards/
+policies/
+mappers/
+events/
+tests/
+
+Keep business logic out of controllers.
+
+Controllers:
+    HTTP concerns only.
+
+Services:
+    domain/application logic.
+
+Repositories:
+    persistence abstraction.
+
+Adapters:
+    external provider integration.
+
+============================================================
+69. PROVIDER ABSTRACTIONS
+============================================================
+
+Create interfaces for:
+
+KYC
+Email
+SMS
+Push
+Storage
+KMS
+Malware Scanner
+Blockchain
+E-sign
+IPFS
+
+Do NOT hardcode vendors.
+
+Implement local/mock providers sufficient for complete local demo.
+
+============================================================
+70. BLOCKCHAIN LOCAL DEVELOPMENT
+============================================================
+
+Support:
+
+Ethereum Sepolia
+
+and preferably allow local contract development using a local EVM
+such as Anvil/Hardhat without modifying domain logic.
+
+Contract addresses must come from configuration.
+
+============================================================
+71. WALLET CONNECTION
+============================================================
+
+Implement wallet linking.
+
+Flow:
+
+Authenticated user
+ ↓
+Request wallet nonce
+ ↓
+Sign nonce
+ ↓
+Verify signature
+ ↓
+Link wallet
+ ↓
+Audit
+
+Prevent:
+
+- replay
+- nonce reuse
+- wallet hijacking
+- duplicate ownership
+
+Wallet connection is optional and must not replace normal account authentication.
+
+============================================================
+72. WALLET / BLOCKCHAIN SECURITY
+============================================================
+
+Never store user private keys.
+
+Never ask users to send private keys to backend.
+
+If server-side blockchain signing is required for platform-controlled
+operations:
+
+- isolate signer
+- use secret manager
+- restrict permissions
+- audit use
+- implement nonce management
+- implement transaction replacement/retry safely
+
+============================================================
+73. BACKGROUND WORKERS
+============================================================
+
+Workers must be independently executable.
+
+Support:
+
+npm run start:worker
+
+Workers should be horizontally scalable later.
+
+Use BullMQ.
+
+Every job must include:
+
+job ID
+correlation ID
+trace context
+attempt count
+idempotency reference
+business reference
+
+============================================================
+74. WORKFLOW STATE MACHINES
+============================================================
+
+Do NOT allow arbitrary status updates.
+
+Implement explicit transition methods.
+
+Example:
+
+finalizeVersion()
+approveTask()
+rejectTask()
+openGracePeriod()
+submitActivation()
+approveActivation()
+releaseResources()
+closeExecutionCase()
+
+Each transition validates:
+
+current state
+actor
+role
+policy
+evidence
+timers
+authorization
+
+============================================================
+75. STATE ENUMS
+============================================================
+
+Implement these documented states.
+
+User:
+
+PENDING
+ACTIVE
+SUSPENDED
+LOCKED
+
+Role:
+
+TESTATOR
+ADVOCATE
+WITNESS
+EXECUTOR
+BENEFICIARY
+ADMIN
+
+Will:
+
+DRAFT
+VERIFICATION_PENDING
+READY_TO_FINALIZE
+FINALIZED
+ACTIVE
+SUPERSEDED
+ACTIVATION_PENDING
+VERIFICATION_WINDOW
+GRACE_PERIOD
+APPROVAL_PENDING
+CONTROLLED_RELEASE
+EXECUTION_COORDINATION
+CLOSED
+ARCHIVED
+
+Task:
+
+PENDING
+IN_PROGRESS
+APPROVED
+REJECTED
+EXPIRED
+CANCELLED
+
+Document:
+
+UPLOADING
+SCANNING
+VERIFIED
+QUARANTINED
+AVAILABLE
+ARCHIVED
+
+Blockchain:
+
+NOT_REQUESTED
+PENDING
+CONFIRMED
+FAILED
+RECONCILIATION_REQUIRED
+
+Access:
+
+ACTIVE
+EXPIRED
+REVOKED
+
+Attestation:
+
+PENDING
+ACCEPTED
+REJECTED
+REVOKED
+
+KYC:
+
+NOT_STARTED
+PENDING
+VERIFIED
+REJECTED
+EXPIRED
+REVOKED
+
+Proposal:
+
+DRAFT
+OPEN
+PASSED
+REJECTED
+EXPIRED
+CANCELLED
+EXECUTED
+
+Vote:
+
+CAST
+REVOKED
+INVALID
+
+Activation:
+
+SUBMITTED
+EVIDENCE_PENDING
+VERIFICATION
+CHALLENGED
+GRACE
+APPROVAL_PENDING
+APPROVED
+REJECTED
+RELEASED
+CLOSED
+
+Transfer:
+
+DRAFT
+AUTHORIZATION_PENDING
+READY
+IN_PROGRESS
+COMPLETED
+FAILED
+BLOCKED
+
+============================================================
+76. SECURITY TESTING
+============================================================
+
+Explicitly test:
+
+BOLA
+IDOR
+privilege escalation
+cross-estate access
+cross-beneficiary access
+malicious uploads
+oversized files
+MIME spoofing
+token abuse
+refresh token abuse
+rate limiting
+replay attacks
+duplicate votes
+duplicate approvals
+duplicate finalization
+concurrent finalization
+concurrent activation
+unauthorized downloads
+expired access grants
+revoked access grants
+admin exceptional access
+wallet replay
+blockchain transaction mismatch
+
+============================================================
+77. INTEGRITY TESTING
+============================================================
+
+Test:
+
+Upload
+ ↓
+Hash
+ ↓
+Encrypt
+ ↓
+Store
+ ↓
+Finalize
+ ↓
+Anchor
+ ↓
+Verify
+
+Then modify one byte.
+
+Expected:
+
+Integrity verification FAILS.
+
+Also test:
+
+DB metadata says hash X
+Object contains hash Y
+
+System must detect mismatch.
+
+============================================================
+78. CONCURRENCY TESTING
+============================================================
+
+Create tests for:
+
+two simultaneous finalization requests
+
+two simultaneous active-version creation requests
+
+two simultaneous votes
+
+two simultaneous approvals
+
+two simultaneous asset transfers
+
+two simultaneous activation submissions
+
+Expected result:
+
+No duplicate state transitions.
+
+============================================================
+79. END-TO-END TEST
+============================================================
+
+Create one complete automated E2E scenario:
+
+1. Register testator
+2. Verify account
+3. Complete mock KYC
+4. Create estate
+5. Create will
+6. Add beneficiaries
+7. Add executor
+8. Add assets
+9. Invite advocate
+10. Advocate accepts
+11. Advocate reviews
+12. Invite witness 1
+13. Invite witness 2
+14. Witnesses accept
+15. Witnesses attest
+16. Upload final legal document
+17. Scan document
+18. Calculate SHA-256
+19. Encrypt document
+20. Store in MinIO
+21. Complete required verification
+22. Step-up authentication
+23. Finalize version
+24. Queue blockchain anchor
+25. Anchor on Sepolia/local test chain
+26. Confirm transaction
+27. Verify blockchain proof
+28. Start proof-of-life
+29. Simulate missed checks
+30. Verify escalation
+31. Submit activation request
+32. Submit evidence
+33. Open verification
+34. Start grace period
+35. Open governance proposal
+36. Authorized participants vote
+37. Verify quorum
+38. Verify threshold
+39. Approve activation
+40. Create release grants
+41. Create executor tasks
+42. Release authorized beneficiary resources
+43. Create physical asset transfer cases
+44. Execute supported blockchain-native asset workflow
+45. Beneficiary acknowledges receipt
+46. Close execution
+47. Archive estate
+48. Verify audit chain
+
+This E2E test is the ultimate demonstration that the backend works.
+
+============================================================
+80. TEST COVERAGE
+============================================================
+
+Unit tests:
+
+- hashing
+- encryption
+- policy engine
+- authorization
+- state transitions
+- validation
+- asset allocation
+- voting
+- workflow evaluation
+- access grants
+
+Integration tests:
+
+- PostgreSQL
+- Prisma
+- Redis
+- BullMQ
+- MinIO
+- KYC adapter
+- notification adapter
+- blockchain adapter
+
+API tests:
+
+- authentication
+- authorization
+- validation
+- pagination
+- idempotency
+- error handling
+
+Security tests:
+
+- BOLA
+- IDOR
+- privilege escalation
+- injection
+- file upload abuse
+- token abuse
+- rate limits
+
+Workflow tests:
+
+- successful path
+- missing approval
+- rejection
+- challenge
+- grace period
+- expiry
+- retry
+- recovery
+
+Concurrency tests.
+
+Recovery tests.
+
+E2E tests.
+
+============================================================
+81. BACKUP / RESTORE
+============================================================
+
+Provide:
+
+PostgreSQL backup
+PostgreSQL restore
+MinIO backup/versioning
+encrypted object backup
+restore verification
+outbox replay
+blockchain reconciliation
+
+Recovery sequence:
+
+1. Restore PostgreSQL
+2. Restore object storage
+3. Verify SHA-256
+4. Restore Redis/BullMQ state as needed
+5. Replay/reconcile outbox
+6. Reconcile blockchain anchors
+7. Verify workflow consistency
+8. Resume workers
+
+Document:
+
+RPO/RTO assumptions.
+
+============================================================
+82. DOCUMENTATION
+============================================================
+
+Create:
+
+README.md
+
+docs/
+
+architecture.md
+security.md
+database.md
+api.md
+workflow.md
+blockchain.md
+deployment.md
+development.md
+testing.md
+backup-recovery.md
+threat-model.md
+
+README must explain:
+
+- prerequisites
+- installation
+- environment variables
+- database setup
+- migrations
+- seed
+- Docker setup
+- MinIO
+- Redis
+- workers
+- blockchain configuration
+- contract deployment
+- API
+- Swagger
+- tests
+- observability
+- troubleshooting
+
+============================================================
+83. DATABASE SEED
+============================================================
+
+Create realistic development seed data.
+
+Seed:
+
+- admin
+- testator
+- advocate
+- witness 1
+- witness 2
+- executor
+- beneficiary 1
+- beneficiary 2
+- estate
+- will
+- draft version
+- sample assets
+- sample policy
+- workflow
+- notifications
+
+Never use real personal data.
+
+Provide demo credentials safely through documentation.
+
+============================================================
+84. API DOCUMENTATION
+============================================================
+
+Swagger must expose:
+
+- endpoints
+- DTO schemas
+- authentication
+- errors
+- enums
+- request examples
+- response examples
+
+Add example workflows.
+
+============================================================
+85. ERROR HANDLING
+============================================================
+
+Implement domain-specific error codes.
+
+Examples:
+
+AUTH_INVALID_CREDENTIALS
+AUTH_STEP_UP_REQUIRED
+AUTH_STEP_UP_EXPIRED
+ACCESS_DENIED
+ESTATE_ACCESS_DENIED
+RESOURCE_NOT_FOUND
+WILL_FINALIZED
+VERSION_ALREADY_FINALIZED
+ACTIVE_VERSION_EXISTS
+ATTESTATION_REQUIRED
+WITNESS_NOT_ELIGIBLE
+POLICY_NOT_SATISFIED
+WORKFLOW_INVALID_STATE
+VOTE_ALREADY_CAST
+VOTE_NOT_ELIGIBLE
+ACTIVATION_NOT_AUTHORIZED
+GRACE_PERIOD_ACTIVE
+DOCUMENT_QUARANTINED
+DOCUMENT_INTEGRITY_FAILED
+TRANSFER_NOT_AUTHORIZED
+BLOCKCHAIN_TRANSACTION_FAILED
+IDEMPOTENCY_CONFLICT
+
+============================================================
+86. SECURITY PRINCIPLES
+============================================================
+
+Follow:
+
+- deny by default
+- least privilege
+- defense in depth
+- zero trust between modules/providers
+- validate all input
+- sanitize output
+- parameterized database queries
+- secure headers
+- CORS configuration
+- CSRF strategy where relevant
+- rate limiting
+- secure cookies where used
+- token rotation
+- session revocation
+- encryption at rest
+- encryption in transit
+- secrets isolation
+- audit everything sensitive
+
+============================================================
+87. LEGAL / PRODUCT BOUNDARY
+============================================================
+
+Never implement logic that says:
+
+"inactivity = death"
+
+Never implement:
+
+"blockchain vote = legally valid inheritance"
+
+Never implement:
+
+"blockchain transaction = legal property transfer"
+
+Instead:
+
+inactivity
+→ verification work
+
+governance approval
+→ workflow authorization
+
+physical asset
+→ transfer case
+
+blockchain asset
+→ controlled digital transfer workflow
+
+legal validity
+→ external/legal process
+
+============================================================
+88. PERFORMANCE
+============================================================
+
+Do not perform:
+
+- blockchain RPC calls inside DB transactions
+- email delivery inside request lifecycle
+- large file hashing synchronously when inappropriate
+- malware scanning inside normal request processing
+- large audit queries without pagination
+- unlimited database queries
+
+Use asynchronous jobs.
+
+============================================================
+89. CORRELATION / TRACEABILITY
+============================================================
+
+Every important operation must be traceable:
+
+HTTP request
+ ↓
+Service
+ ↓
+DB transaction
+ ↓
+Audit event
+ ↓
+Outbox event
+ ↓
+BullMQ job
+ ↓
+Worker
+ ↓
+External provider
+ ↓
+Result
+
+A correlation ID must survive across these boundaries.
+
+============================================================
+90. IMPLEMENTATION PROCESS
+============================================================
+
+DO NOT attempt to write the entire codebase blindly in one step.
+
+Work in controlled implementation phases.
+
+PHASE 1
+Repository inspection and foundation.
+
+PHASE 2
+Database + Prisma.
+
+PHASE 3
+Authentication + authorization.
+
+PHASE 4
+Estate + participant + invitation.
+
+PHASE 5
+Will + versioning.
+
+PHASE 6
+Document vault + encryption.
+
+PHASE 7
+Verification + attestation.
+
+PHASE 8
+Assets + allocations + transfer cases.
+
+PHASE 9
+Workflow + policy engine.
+
+PHASE 10
+Governance.
+
+PHASE 11
+Proof-of-life.
+
+PHASE 12
+Activation + inheritance.
+
+PHASE 13
+Blockchain contracts.
+
+PHASE 14
+Blockchain adapter + workers.
+
+PHASE 15
+Notifications.
+
+PHASE 16
+Audit + security events.
+
+PHASE 17
+Observability.
+
+PHASE 18
+Docker + deployment.
+
+PHASE 19
+Testing.
+
+PHASE 20
+E2E validation.
+
+After each phase:
+
+1. compile
+2. lint
+3. run tests
+4. run migrations
+5. verify generated Prisma client
+6. verify API
+7. fix errors
+8. continue
+
+============================================================
+91. IMPORTANT CODING RULE
+============================================================
+
+DO NOT produce fake implementations such as:
+
+throw new Error("Not implemented")
+
+unless the code is an explicitly documented provider adapter that has
+no selected real vendor.
+
+For unresolved providers, implement:
+
+interface
++
+mock/local provider
++
+production-ready adapter boundary
+
+The core business logic must still work completely.
+
+============================================================
+92. DO NOT ASK UNNECESSARY QUESTIONS
+============================================================
+
+The specification intentionally leaves some providers configurable.
+
+Do NOT stop because these are unspecified:
+
+- KYC provider
+- email provider
+- SMS provider
+- e-sign provider
+- IPFS provider
+- exact legal provider
+- exact governance voter composition
+
+Use provider interfaces and configuration.
+
+Use mock implementations for local development.
+
+Only ask a question if the missing information makes implementation
+technically impossible.
+
+============================================================
+93. DO NOT OVERENGINEER
+============================================================
+
+This is an academic/MVP implementation with production-oriented
+architecture.
+
+Do NOT introduce:
+
+- Kubernetes unless required
+- unnecessary microservices
+- unnecessary event brokers
+- unnecessary databases
+- unnecessary distributed systems
+
+Keep the backend modular monolith + workers.
+
+The system should run comfortably using Docker Compose.
+
+============================================================
+94. AWS PORTABILITY
+============================================================
+
+The system initially runs:
+
+Local machine
++
+Home server
+
+Later:
+
+AWS PostgreSQL
+AWS S3
+AWS KMS
+AWS Secrets Manager
+container hosting
+
+Do NOT write domain logic directly against AWS SDKs.
+
+Use abstractions.
+
+============================================================
+95. FINAL ACCEPTANCE CRITERIA
+============================================================
+
+The implementation is NOT COMPLETE until all of the following work:
+
+[ ] User registration
+[ ] Login
+[ ] Refresh
+[ ] Logout
+[ ] MFA/step-up
+[ ] KYC mock
+[ ] Multiple roles
+[ ] Multiple estates
+[ ] Estate membership
+[ ] Invitations
+[ ] Advocate workflow
+[ ] Witness workflow
+[ ] Executor workflow
+[ ] Beneficiary workflow
+[ ] Structured will creation
+[ ] Will versioning
+[ ] Immutable finalized versions
+[ ] Document upload
+[ ] Malware scanning abstraction
+[ ] SHA-256
+[ ] Envelope encryption
+[ ] MinIO storage
+[ ] Controlled downloads
+[ ] Asset management
+[ ] Asset allocations
+[ ] Asset evidence
+[ ] Physical transfer cases
+[ ] Blockchain-native asset registry
+[ ] Blockchain transfer workflow
+[ ] Verification cases
+[ ] Attestations
+[ ] Policy engine
+[ ] Workflow engine
+[ ] Governance
+[ ] Voting
+[ ] Quorum
+[ ] Majority threshold
+[ ] Challenge window
+[ ] Grace period
+[ ] Proof-of-life
+[ ] Escalation
+[ ] Activation
+[ ] Inheritance execution
+[ ] Controlled release
+[ ] Access expiry
+[ ] Blockchain anchors
+[ ] Smart contracts
+[ ] Viem adapter
+[ ] Blockchain listeners
+[ ] Reconciliation
+[ ] Outbox
+[ ] BullMQ
+[ ] Notifications
+[ ] Audit chain
+[ ] Security events
+[ ] Rate limiting
+[ ] BOLA/IDOR protection
+[ ] OpenAPI
+[ ] Health checks
+[ ] Metrics
+[ ] Tracing
+[ ] Structured logs
+[ ] Docker Compose
+[ ] Prisma migrations
+[ ] Seed
+[ ] Unit tests
+[ ] Integration tests
+[ ] Security tests
+[ ] Concurrency tests
+[ ] E2E tests
+[ ] Backup/restore documentation
+[ ] Complete README
+
+============================================================
+96. CRITICAL BUSINESS ACCEPTANCE TESTS
+============================================================
+
+The following MUST pass:
+
+TEST 1:
+User cannot download another estate's document even when the document ID
+is known.
+
+TEST 2:
+Witness can attest only to an invited and permitted will version.
+
+TEST 3:
+Finalized version cannot be modified.
+
+TEST 4:
+Changing one byte in a document causes integrity verification failure.
+
+TEST 5:
+New version preserves previous version and marks it SUPERSEDED.
+
+TEST 6:
+Workflow cannot enter CONTROLLED_RELEASE before prerequisites pass.
+
+TEST 7:
+Duplicate approval cannot count twice.
+
+TEST 8:
+Unauthorized user cannot vote.
+
+TEST 9:
+Failed blockchain transaction cannot be shown as CONFIRMED.
+
+TEST 10:
+Proof-of-life failure never independently declares death.
+
+TEST 11:
+Sensitive document download generates audit event.
+
+TEST 12:
+Physical asset transfer becomes a transfer/execution case rather than
+a false blockchain transfer.
+
+TEST 13:
+Blockchain-native asset transfer cannot execute without:
+- authorization
+- policy approval
+- step-up authentication
+- transfer case
+
+TEST 14:
+Two concurrent finalization requests cannot produce two active versions.
+
+TEST 15:
+Two concurrent votes cannot produce duplicate voting records.
+
+TEST 16:
+Expired release grant cannot access protected resources.
+
+TEST 17:
+Revoked participant cannot vote or access resources.
+
+TEST 18:
+Admin exceptional document access is always audited.
+
+TEST 19:
+Replay of the same idempotency key does not execute the operation twice.
+
+TEST 20:
+Database recovery followed by outbox replay does not duplicate blockchain
+anchors or notifications.
+
+============================================================
+97. FINAL DELIVERABLE
+============================================================
+
+At the end provide:
+
+1. Complete source code
+2. Complete Prisma schema
+3. Database migrations
+4. Seed scripts
+5. NestJS modules
+6. Controllers
+7. Services
+8. Repositories
+9. Guards
+10. Policies
+11. DTOs
+12. Interfaces
+13. Workers
+14. BullMQ queues
+15. Docker Compose
+16. Dockerfiles
+17. MinIO configuration
+18. Redis configuration
+19. PostgreSQL configuration
+20. Prometheus configuration
+21. Grafana configuration
+22. OpenTelemetry configuration
+23. Solidity contracts
+24. Contract deployment scripts
+25. Viem blockchain adapter
+26. Blockchain event listeners
+27. Reconciliation worker
+28. Mock KYC provider
+29. Mock notification provider
+30. Mock malware scanner
+31. Encryption implementation
+32. Audit implementation
+33. OpenAPI documentation
+34. Unit tests
+35. Integration tests
+36. Security tests
+37. Concurrency tests
+38. E2E tests
+39. README
+40. Architecture documentation
+41. Security documentation
+42. Deployment documentation
+43. Backup/recovery documentation
+44. Example .env
+45. Development seed/demo flow
+
+============================================================
+98. FINAL DEVELOPMENT COMMANDS
+============================================================
+
+The project should support commands conceptually equivalent to:
+
+npm install
+
+npm run prisma:generate
+npm run prisma:migrate
+npm run prisma:seed
+
+npm run start:dev
+npm run start:worker
+
+npm run test
+npm run test:integration
+npm run test:e2e
+
+npm run lint
+npm run build
+
+docker compose up -d
+
+Provide exact commands in README based on the actual package.json.
+
+============================================================
+99. DEFINITION OF DONE
+============================================================
+
+Consider the backend COMPLETE only when:
+
+- it builds successfully
+- migrations execute successfully
+- seed works
+- Docker Compose starts
+- PostgreSQL works
+- Redis works
+- MinIO works
+- API works
+- workers work
+- Swagger works
+- authentication works
+- authorization works
+- documents are encrypted
+- SHA-256 integrity works
+- finalized versions are immutable
+- assets work
+- policies work
+- workflows work
+- governance works
+- proof-of-life works
+- activation works
+- controlled release works
+- blockchain anchoring works
+- blockchain reconciliation works
+- audit chain works
+- observability works
+- tests pass
+- E2E scenario passes
+- no secrets are committed
+- no raw sensitive information is placed on-chain
+- no raw document content is logged
+- no critical functionality is represented by fake TODO code
+
+============================================================
+100. MOST IMPORTANT PRINCIPLE
+============================================================
+
+Build DecentraWill as a secure orchestration and trust platform,
+NOT as a blockchain-only application.
+
+The architecture must preserve this hierarchy:
+
+Traditional Legal Will
+        ↓
+DecentraWill Digital Trust Layer
+        ↓
+Identity + Verification
+        ↓
+Encrypted Document Vault
+        ↓
+Cryptographic Integrity
+        ↓
+Policy-Driven Workflow
+        ↓
+Governance
+        ↓
+Controlled Release
+        ↓
+Inheritance Execution
+        ↓
+Blockchain Proof / Selected Blockchain Operations
+
+Sensitive information stays OFF-CHAIN.
+
+PostgreSQL controls application state.
+
+Encrypted object storage controls document bytes.
+
+Queues handle asynchronous operations.
+
+Blockchain provides verifiable proofs and selected programmable operations.
+
+Legal authority remains outside the software.
+
+============================================================
+START NOW
+============================================================
+
+First inspect the existing repository if one exists.
+
+Then:
+
+1. Create a detailed implementation checklist.
+2. Map the checklist against this specification.
+3. Identify existing code that can be reused.
+4. Establish the NestJS project structure.
+5. Establish Prisma schema and migrations.
+6. Implement Phase 1 completely.
+7. Run/build/test it.
+8. Continue phase-by-phase.
+9. Never skip security or tests merely to move faster.
+10. Keep the implementation consistent across database, API, workers,
+    contracts and documentation.
+11. Do not merely tell me what you would implement.
+12. IMPLEMENT IT.
+
+At every stage, maintain a clear record of:
+
+- files created
+- files modified
+- database changes
+- API changes
+- environment variables
+- tests added
+- commands required
+- known limitations
+
+The final result must be a runnable, end-to-end DecentraWill backend.
